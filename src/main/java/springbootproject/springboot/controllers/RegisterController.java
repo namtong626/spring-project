@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import jakarta.validation.Valid;
 import springbootproject.springboot.contracts.services.UserServiceInterface;
+import springbootproject.springboot.models.User;
 import springbootproject.springboot.requests.UserRequest;
 
 @Controller
@@ -20,7 +21,6 @@ public class RegisterController {
 		this.userService = userService;
 	}
 
-
     @GetMapping("/register")
     public String register(Model model) {
         UserRequest user = new UserRequest();
@@ -29,22 +29,25 @@ public class RegisterController {
         return "authentication/register";
     }
 
-
     @PostMapping("/register/save")
     public String createAccount(
         @Valid @ModelAttribute("user") UserRequest userRequest,
         BindingResult result,
         Model model
     ) {
+        User checkExistedEmail = this.userService.findByEmail(userRequest.getEmail());
+
+        if (checkExistedEmail != null) {
+            result.rejectValue("email", "409",  "This Email is already registed");
+        }
+
         if (result.hasErrors()) {
             model.addAttribute("user", userRequest);
-			return "/register";
+            return "authentication/register";
 		}
 
 		this.userService.saveUser(userRequest);
 
-        return "redirect:/login";
+        return "redirect:/register?success";
     }
-
-
 }

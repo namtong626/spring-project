@@ -16,6 +16,9 @@
         <div class="card">
             <div class="card-body register-card-body">
                 <p class="login-box-msg">Register a new membership</p>
+                <div th:if="${param.success}" class="alert alert-success">
+                    Register Successfully
+                </div>
 
                 <form 
                     th:action="@{register/save}"
@@ -34,13 +37,13 @@
                                 <span class="fas fa-user"></span>
                             </div>
                         </div>
-                        <p th:errors="*{name}" 
-                            style="color: red;" 
-                            th:if="${#fields.hasErrors('name')}"
-                        ></p>
                     </div>
+                    <p th:errors="*{name}" 
+                        style="color: red;" 
+                        th:if="${#fields.hasErrors('name')}"
+                    ></p>
                     <div class="input-group mb-3">
-                        <input type="email" class="form-control"
+                        <input type="text" class="form-control"
                         th:field="*{email}"   
                         placeholder="Email">
                         <div class="input-group-append">
@@ -48,11 +51,12 @@
                                 <span class="fas fa-envelope"></span>
                             </div>
                         </div>
-                        <p th:errors="*{email}" 
-                        style="color: red;" 
-                        th:if="${#fields.hasErrors('email')}"
-                    ></p>
+                    
                     </div>
+                    <p th:errors="*{email}" 
+                    style="color: red;" 
+                    th:if="${#fields.hasErrors('email')}"
+                ></p>
                     <div class="input-group mb-3">
                         <input type="password" class="form-control"
                         th:field="*{password}"   
@@ -62,11 +66,12 @@
                                 <span class="fas fa-lock"></span>
                             </div>
                         </div>
-                        <p th:errors="*{password}" 
-                        style="color: red;" 
-                        th:if="${#fields.hasErrors('password')}"
-                    ></p>
                     </div>
+                    
+                    <p th:errors="*{password}" 
+                    style="color: red;" 
+                    th:if="${#fields.hasErrors('password')}"
+                ></p>
                         <div class="col-4">
                             <button type="submit" class="btn btn-primary btn-block">Register</button>
                         </div>

@@ -1,5 +1,6 @@
 package springbootproject.springboot.requests;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,6 +18,7 @@ public class UserRequest {
     private String name;
 
     @NotEmpty(message = "Email should not be empty")
+    @Email
     private String email;
 
     @NotEmpty(message = "Password should not be empty")
