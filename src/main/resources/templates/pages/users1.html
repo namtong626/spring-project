@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>AdminLTE 3 | Dashboard 2</title>
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" th:href="@{/plugins/overlayScrollbars/css/OverlayScrollbars.min.css}">
+    <meta name="_csrf" content="${_csrf.token}" />
+    <meta name="_csrf_header" content="${_csrf.headerName}" />
+
+    <span th:replace="~{layouts/head :: head}"></span>
+</head>
+
+<body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+    <div class="wrapper">
+
+        <!-- Preloader -->
+        <div class="preloader flex-column justify-content-center align-items-center">
+            <img class="animation__wobble" th:src="@{/dist/img/AdminLTELogo.png}" alt="AdminLTELogo" height="60" width="60">
+        </div>
+
+        <!-- Navbar -->
+        <span th:replace="~{layouts/header :: header}"></span>
+        <!-- /.navbar -->
+
+        <!-- Main Sidebar Container -->
+        <span th:replace="~{layouts/sidebar :: sidebar}"></span>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>Danh sách Users</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Danh sách Users</li>
+                        </ol>
+                    </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <!-- /.row -->
+                    <div class="row">
+                        <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                            <h3 class="card-title">
+                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default">
+                                    Them moi
+                                  </button>
+                            </h3>
+
+                            <div class="card-tools">
+                                <div class="input-group input-group-sm" style="width: 150px;">
+                                <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                                </div>
+                                </div>
+                            </div>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body table-responsive p-0">
+                                <div id="user_table">
+
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                        </div>
+                    </div>
+                    <!-- /.row -->
+                </div>
+            </section>
+        </div>
+           <!-- Control Sidebar -->
+           <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+        </aside>
+        <!-- /.control-sidebar -->
+
+        <!-- Main Footer -->
+        <span th:replace="~{layouts/footer :: footer}"></span>
+    </div>
+    <!-- ./wrapper -->
+
+    <!-- REQUIRED SCRIPTS -->
+    <span th:replace="~{layouts/script :: script}"></span>
+    
+    <!-- overlayScrollbars -->
+    <script th:src="@{plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js}"></script>
+    <!-- PAGE PLUGINS -->
+    <!-- jQuery Mapael -->
+    <script th:src="@{plugins/jquery-mousewheel/jquery.mousewheel.js}"></script>
+    <script th:src="@{plugins/raphael/raphael.min.js}"></script>
+    <script th:src="@{plugins/jquery-mapael/jquery.mapael.min.js}"></script>
+    <script th:src="@{plugins/jquery-mapael/maps/usa_states.min.js}"></script>
+    <!-- ChartJS -->
+    <script th:src="@{/plugins/chart.js/Chart.min.js}"></script>
+    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    <script th:src="@{/dist/js/pages/dashboard2.js}"></script>
+
+
+    <div class="modal fade" id="modal-default">
+        <form role="form"
+        th:action="@{/users1/save}"
+        th:object="${user}"
+        method="post"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Create User</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body">
+                  <div class="form-group">
+                      <label for="name">Name</label>
+                      <input type="text" class="form-control" id="name" placeholder="Enter name" name="name"
+                      th:field="*{name}">
+                    </div>
+                    <p th:errors="*{name}" 
+                    style="color: red;" 
+                    th:if="${#fields.hasErrors('name')}"
+                ></p>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Email address</label>
+                    <input type="email" 
+                    name="email"
+                    th:field="*{email}"   
+                    class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                  </div>
+                  <p th:errors="*{email}" 
+                  style="color: red;" 
+                  th:if="${#fields.hasErrors('email')}"
+              ></p>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Password</label>
+                    <input type="password" 
+                    name="password"
+                    th:field="*{password}"  
+                    class="form-control" id="exampleInputPassword1" placeholder="Password">
+                  </div>
+                  <p th:errors="*{password}" 
+                  style="color: red;" 
+                  th:if="${#fields.hasErrors('password')}"
+              ></p>
+                  
+                  <div class="form-group">
+                      <label for="ConfirmPassword">Confirm Password</label>
+                      <input type="password"
+                      name="confirm_password"
+                      th:field="*{confirm_password}"  
+                      class="form-control" id="ConfirmPassword" placeholder="Confirm Password">
+                  </div>
+                  <p 
+                  style="color: red;" 
+                  th:if="${#fields.hasErrors('confirm_password')}"
+                  th:errors="*{confirm_password}"
+              ></p>
+                </div>
+                <!-- /.card-body -->
+
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </form>
+
+      </div>
+      <!-- /.modal -->
+    <script>
+        $(function() {
+            loadUserData();
+
+            $('#modal-default form').on('submit', function(e) {
+                e.preventDefault();
+                $.ajax({
+                    type: "post",
+                    url:"/users1/save",
+                    data: $(this).serialize(),
+                    success: function(data) {
+                        $('#modal-default').modal('hide');
+                        loadUserData();
+                    }
+                })
+            });
+        });
+
+
+        let loadUserData = function() {
+            $.ajax({
+                url: "/users1/list-data",
+                method: "POST",
+                dataType: "HTML",
+                success: function(data) {
+                    $('#user_table').html(data)
+                }
+            });
+        }
+
+    </script>

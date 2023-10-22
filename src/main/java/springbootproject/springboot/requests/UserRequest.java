@@ -1,5 +1,6 @@
 package springbootproject.springboot.requests;
 
+import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
@@ -23,4 +24,13 @@ public class UserRequest {
 
     @NotEmpty(message = "Password should not be empty")
     private String password;
+
+    
+    @NotEmpty(message = "Confirm password should not be empty")
+    private String confirm_password;
+
+    @AssertTrue(message = "Password must match")
+    public boolean isPasswordMatch()  {
+        return password != null && password.equals(confirm_password);
+    }
 }

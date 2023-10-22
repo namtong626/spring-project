@@ -2,6 +2,7 @@ package springbootproject.springboot.controllers;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,62 +16,35 @@ import springbootproject.springboot.models.User;
 import springbootproject.springboot.requests.UserRequest;
 
 @Controller
-public class UserManagementController {
+public class UserController {
     
     protected UserServiceInterface userService;
 
-    public UserManagementController(UserServiceInterface userService) {
+    public UserController(UserServiceInterface userService) {
         this.userService = userService;
     }
 
 
-    @GetMapping("/users")
+    @GetMapping("/users1")
     public String index(Model model) {
-        List<UserRequest> users = this.userService.getUsersDataList();
-        model.addAttribute("users", users);
-
-        return "pages/users";
-    }
-
-    
-    @GetMapping("/users/create")
-    public String create(Model model) {
         UserRequest user = new UserRequest();
         model.addAttribute("user", user);
 
-        return "pages/forms/users/create_users";
+        return "pages/users1";
     }
-
-    @PostMapping("/users/save")
-    public String save(
-        @Valid @ModelAttribute("user") UserRequest userRequest,
-        BindingResult result,
-        Model model
-    ) {
-        User checkExistedEmail = this.userService.findByEmail(userRequest.getEmail());
-
-        if (checkExistedEmail != null) {
-            result.rejectValue("email", "409",  "This Email is already registed");
-        }
-
-        if (result.hasErrors()) {
-            model.addAttribute("user", userRequest);
-            return "pages/forms/users/create_users";
-		}
-
-		this.userService.saveUser(userRequest);
-
-        return "redirect:/users?success";
-    }
+    
 
     
-    @GetMapping("/users/edit/{id}")
-    public String edit(Model model) {
-        return "pages/update_users";
+    @PostMapping("/users1/list-data")
+    public String getUsersDataList(Model model) {
+        List<UserRequest> users = this.userService.getUsersDataList();
+        model.addAttribute("users", users);
+
+        return "pages/user_table";
     }
 
-    @PostMapping("/users/update")
-    public String update(
+     @PostMapping("/users1/save")
+    public ResponseEntity<String> save(
         @Valid @ModelAttribute("user") UserRequest userRequest,
         BindingResult result,
         Model model
@@ -83,12 +57,13 @@ public class UserManagementController {
 
         if (result.hasErrors()) {
             model.addAttribute("user", userRequest);
-            return "pages/update_users";
+            return ResponseEntity.ok("error data");
 		}
 
 		this.userService.saveUser(userRequest);
 
-        return "redirect:/users?success";
+        return ResponseEntity.ok("create successfully");
     }
+
 
 }

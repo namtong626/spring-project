@@ -57,25 +57,56 @@
                             </div>
                             <!-- /.card-header -->
                             <!-- form start -->
-                            <form role="form">
+                            <form role="form"
+                              th:action="@{/users/save}"
+                              th:object="${user}"
+                              method="post"
+                            >
                               <div class="card-body">
                                 <div class="form-group">
                                     <label for="name">Name</label>
-                                    <input type="text" class="form-control" id="name" placeholder="Enter name">
+                                    <input type="text" class="form-control" id="name" placeholder="Enter name" name="name"
+                                    th:field="*{name}">
                                   </div>
+                                  <p th:errors="*{name}" 
+                                  style="color: red;" 
+                                  th:if="${#fields.hasErrors('name')}"
+                              ></p>
                                 <div class="form-group">
                                   <label for="exampleInputEmail1">Email address</label>
-                                  <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                                  <input type="email" 
+                                  name="email"
+                                  th:field="*{email}"   
+                                  class="form-control" id="exampleInputEmail1" placeholder="Enter email">
                                 </div>
+                                <p th:errors="*{email}" 
+                                style="color: red;" 
+                                th:if="${#fields.hasErrors('email')}"
+                            ></p>
                                 <div class="form-group">
                                   <label for="exampleInputPassword1">Password</label>
-                                  <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                                  <input type="password" 
+                                  name="password"
+                                  th:field="*{password}"  
+                                  class="form-control" id="exampleInputPassword1" placeholder="Password">
                                 </div>
+                                <p th:errors="*{password}" 
+                                style="color: red;" 
+                                th:if="${#fields.hasErrors('password')}"
+                            ></p>
                                 
                                 <div class="form-group">
                                     <label for="ConfirmPassword">Confirm Password</label>
-                                    <input type="password" class="form-control" id="ConfirmPassword" placeholder="Confirm Password">
-                                  </div>
+                                    <input type="password"
+                                    name="confirm_password"
+                                    th:field="*{confirm_password}"  
+                                    class="form-control" id="ConfirmPassword" placeholder="Confirm Password">
+                                </div>
+                                <p 
+                                style="color: red;" 
+                                th:if="${#fields.hasErrors('confirm_password')}"
+                                th:errors="*{confirm_password}"
+                            ></p>
                               </div>
                               <!-- /.card-body -->
               
