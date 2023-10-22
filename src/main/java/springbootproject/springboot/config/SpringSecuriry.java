@@ -33,6 +33,7 @@ public class SpringSecuriry {
                     .requestMatchers("/dist/**").permitAll()
                     .requestMatchers("/plugins/**").permitAll()
                     .requestMatchers("/dashboard").hasRole("ADMIN")
+                    .requestMatchers("/users/**").hasRole("ADMIN")
             )
             .formLogin(form -> form
                 .loginPage("/login")
