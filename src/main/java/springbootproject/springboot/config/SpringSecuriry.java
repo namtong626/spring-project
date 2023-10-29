@@ -36,6 +36,7 @@ public class SpringSecuriry {
                     .requestMatchers("/dashboard").hasRole("ADMIN")
                     .requestMatchers("/users/**").hasRole("ADMIN")
                     .requestMatchers("/users1/**").hasRole("ADMIN")
+                    .requestMatchers("/products/**").hasRole("ADMIN")
 
             )
             .formLogin(form -> form
