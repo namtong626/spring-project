@@ -35,12 +35,14 @@ lúc chạy, Hibernate hay bất kỳ thư viện nào implement JPA đều tran
 
 ## EntityManager 
 EntityManager là một interface  được cung cấp bởiJava Persistence API (JPA). Chúng ta sử dụng EntityManager có mục đích chung để quản lý vòng đời của các phiên bản entity, chẳng hạn như:
-Tạo và xóa các phiên bản entity
-Tìm các entity theo khóa chính của chúng
-Truy vấn các entity
+- Tạo và xóa các phiên bản entity
+- Tìm các entity theo khóa chính của chúng
+- Truy vấn các entity
 Trong ứng dụng Spring Boot sử dụng Spring Data JPA, bạn có thể đưa một phiên bản EntityManager vào lớp kho lưu trữ/dịch vụ/bộ điều khiển của mình. Bộ chứa IoC của Spring quản lý một Bean EntityManager và việc triển khai cụ thể được cung cấp bởi khung Hibernate.
+
 Một đối tượng EntityManager quản lý một tập hợp các thực thể được xác định bởi đơn vị kiên trì. Và người quản lý thực thể chịu trách nhiệm theo dõi tất cả các đối tượng thực thể để biết các thay đổi và đồng bộ hóa các thay đổi với cơ sở dữ liệu.
- ### Inject an EntityManager object
+
+### Inject an EntityManager object
 
 ```
 import javax.persistence.EntityManager;
@@ -58,7 +60,7 @@ public class ContactRepository {
 - EntityManager Create Entity Example
 
 ```
-  import javax.persistence.EntityManager;
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
  
 import org.springframework.beans.factory.annotation.Autowired;
