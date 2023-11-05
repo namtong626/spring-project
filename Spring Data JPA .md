@@ -216,21 +216,11 @@ Sau đó chúng ta implement lại interface này bằng class UserRepositoryImp
 
 import java.util.List;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-
 class UserRepositoryImpl implements UserRepositoryCustom {
 	public List<User> myCustomBatchOperation() {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpaexample");
-        EntityManager em = emf.createEntityManager();
-        
-        Query query = em.createQuery("SELECT c FROM Student c");
-
-        return query.getResultList();
 	}
 }
 ```
-
 
 
 
