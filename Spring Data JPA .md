@@ -3,208 +3,7 @@
 
 Spring Data JPA giúp chúng ta đơn giản hoá quá trình viết câu lệnh SQL để thao tác với database thông qua cơ chế tự động tạo câu lệnh SQL từ code Java.
 
-## JPA Query Language
-Vì mình sẽ sử dụng JPA với implementation của Hibernate, do đó, mình sẽ thêm Hibernate dependencies như sau:
-
-Thông thường, khi cần thao tác đến một database bất kỳ, chúng ta phải viết câu SQL dựa trên thông tin
-của các cột, các bảng trong database đó và có thể đối với mỗi loại database khác nhau, syntax của câu 
-SQL cũng khác nhau. Để loại bỏ những nhược điểm này, các bạn có thể sử dụng JPA Query Language (JPQL).
-
-Điều đầu tiên mình cần nói với các bạn về JPA Query Language đó là nó cho phép chúng ta định nghĩa
-các câu query dựa trên các entity chứ không dựa vào tên các cột, các bảng trong database.
-
-Cấu trúc và cú pháp của JPA Query Language thì rất tương tự như cấu trúc và cú pháp của câu SQL.
-Ví dụ như đối với câu lệnh SELECT, UPDATE, DELETE cú pháp của JPA Query Language như sau:
-
-```angular2html
-SELECT ... FROM ...
-[WHERE ...]
-[GROUP BY ... [HAVING ...]]
-[ORDER BY ...]
-
-DELETE FROM ... [WHERE ...]
-
-UPDATE ... SET ... [WHERE ...]
-```
-
-Điều này giúp chúng ta dễ dàng định nghĩa các câu query sử dụng JPA Query Language nhưng các bạn cũng nên 
-nhớ một điều là: mặc dù chúng ta định nghĩa các câu query sử dụng các entity nhưng trong thực tế, 
-lúc chạy, Hibernate hay bất kỳ thư viện nào implement JPA đều transform những câu query
-đó sang những câu SQL dành cho database với tên cột, tên bảng của database đó.
-
-
-## EntityManager 
-EntityManager là một interface  được cung cấp bởiJava Persistence API (JPA). Chúng ta sử dụng EntityManager có mục đích chung để quản lý vòng đời của các phiên bản entity, chẳng hạn như:
-- Tạo và xóa các phiên bản entity
-- Tìm các entity theo khóa chính của chúng
-- Truy vấn các entity
-Trong ứng dụng Spring Boot sử dụng Spring Data JPA, bạn có thể đưa một phiên bản EntityManager vào lớp kho lưu trữ/dịch vụ/bộ điều khiển của mình. Bộ chứa IoC của Spring quản lý một Bean EntityManager và việc triển khai cụ thể được cung cấp bởi khung Hibernate.
-
-Một đối tượng EntityManager quản lý một tập hợp các thực thể được xác định bởi đơn vị kiên trì. Và người quản lý thực thể chịu trách nhiệm theo dõi tất cả các đối tượng thực thể để biết các thay đổi và đồng bộ hóa các thay đổi với cơ sở dữ liệu.
-
-### Inject an EntityManager object
-
-```
-import javax.persistence.EntityManager;
- 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
- 
-@Repository
-public class ContactRepository {
-    @Autowired private EntityManager entityManager;
- 
-}
-```
-
-- EntityManager Create Entity Example
-
-```
-import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
- 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
- 
-@Repository
-public class ContactRepository {
- 
-    @Autowired private EntityManager entityManager;
- 
-    @Transactional
-    public void save(Contact contact) {
-        entityManager.persist(contact);
-    }
-}
-```
-
-
-```
-@SpringBootApplication
-public class Application implements CommandLineRunner {
-     
-    @Autowired private ContactRepository repo;
-     
-    public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
-    }
- 
-    @Override
-    public void run(String... args) throws Exception {
- 
-        createContact();
-    }
- 
-    private void createContact() {
-        Contact newContact = new Contact();
- 
-        newContact.setName("Peter Smith");
-        newContact.setEmail("peter.smith@gmail.com");
-        newContact.setAddress("New York, USA");
-        newContact.setPhone("123456-2111");
-         
-        repo.save(newContact);     
-    }
-     
-}
-```
-
-- EntityManager Update Entity Example
-
-```
-@Transactional
-public Contact update(Contact contact) {
-    return entityManager.merge(contact);
-}
-```
-
-```
-@Override
-public void run(String... args) throws Exception {
- 
-    updateContact();
- 
-}
-     
-private void updateContact() {
-    Contact existContact = new Contact();
-     
-    existContact.setId(1);
-    existContact.setName("Peter Smith");
-    existContact.setEmail("peter.smith@gmail.com");
-    existContact.setAddress("New York, USA");
-    existContact.setPhone("123456-2111");
-     
-    Contact updatedContact = repo.update(existContact);
-     
-}
-```
-- EntityManager Query Entities Example
-  
-```
-import java.util.List;
- 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-import javax.transaction.Transactional;
- 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
- 
-@Repository
-public class ContactRepository {
- 
-    @PersistenceContext private EntityManager entityManager;
-     
-    public List<Contact> findAll() {
-        String jpql = "SELECT c FROM Contact c";
-        TypedQuery<Contact> query = entityManager.createQuery(jpql, Contact.class);
-         
-        return query.getResultList();
-    }
- 
-}
-```
-
-```
-@Override
-public void run(String... args) throws Exception {
- 
-    listContacts();
-}
- 
-private void listContacts() {
-    List<Contact> listContacts = repo.findAll();
-    listContacts.forEach(System.out::println);     
-}
-```
-
-- EntityManager Find Entity by ID Example
-
-```
-public Contact findById(Integer id) {
-    return entityManager.find(Contact.class, id);
-}
-```
-
-```
-@Override
-public void run(String... args) throws Exception {
-    getContact();
-}
- 
-private void getContact() {
-    Integer contactId = 1;
-    Contact contact = repo.findById(contactId);
-     
-    System.out.println(contact);
-}
-```
-
-## Spring Data JPA
-
-Spring Data JPA, một phần của họ Spring Data lớn hơn, giúp dễ dàng triển khai các kho lưu trữ dựa 
+Spring Data JPA, một phần của Spring Data lớn hơn, giúp dễ dàng triển khai các kho lưu trữ dựa 
 trên JPA. Mô-đun này đề cập đến việc hỗ trợ nâng cao cho các lớp truy cập dữ liệu dựa trên JPA. 
 Nó giúp việc xây dựng các ứng dụng hỗ trợ Spring sử dụng công nghệ truy cập dữ liệu trở nên dễ dàng hơn.
 
@@ -435,5 +234,203 @@ class UserRepositoryImpl implements UserRepositoryCustom {
 
 
 
+## JPA Query Language
+Vì mình sẽ sử dụng JPA với implementation của Hibernate, do đó, mình sẽ thêm Hibernate dependencies như sau:
+
+Thông thường, khi cần thao tác đến một database bất kỳ, chúng ta phải viết câu SQL dựa trên thông tin
+của các cột, các bảng trong database đó và có thể đối với mỗi loại database khác nhau, syntax của câu 
+SQL cũng khác nhau. Để loại bỏ những nhược điểm này, các bạn có thể sử dụng JPA Query Language (JPQL).
+
+Điều đầu tiên mình cần nói với các bạn về JPA Query Language đó là nó cho phép chúng ta định nghĩa
+các câu query dựa trên các entity chứ không dựa vào tên các cột, các bảng trong database.
+
+Cấu trúc và cú pháp của JPA Query Language thì rất tương tự như cấu trúc và cú pháp của câu SQL.
+Ví dụ như đối với câu lệnh SELECT, UPDATE, DELETE cú pháp của JPA Query Language như sau:
+
+```angular2html
+SELECT ... FROM ...
+[WHERE ...]
+[GROUP BY ... [HAVING ...]]
+[ORDER BY ...]
+
+DELETE FROM ... [WHERE ...]
+
+UPDATE ... SET ... [WHERE ...]
+```
+
+Điều này giúp chúng ta dễ dàng định nghĩa các câu query sử dụng JPA Query Language nhưng các bạn cũng nên 
+nhớ một điều là: mặc dù chúng ta định nghĩa các câu query sử dụng các entity nhưng trong thực tế, 
+lúc chạy, Hibernate hay bất kỳ thư viện nào implement JPA đều transform những câu query
+đó sang những câu SQL dành cho database với tên cột, tên bảng của database đó.
+
+
+## EntityManager 
+EntityManager là một interface  được cung cấp bởiJava Persistence API (JPA). Chúng ta sử dụng EntityManager có mục đích chung để quản lý vòng đời của các phiên bản entity, chẳng hạn như:
+- Tạo và xóa các phiên bản entity
+- Tìm các entity theo khóa chính của chúng
+- Truy vấn các entity
+Trong ứng dụng Spring Boot sử dụng Spring Data JPA, bạn có thể đưa một phiên bản EntityManager vào lớp kho lưu trữ/dịch vụ/bộ điều khiển của mình. Bộ chứa IoC của Spring quản lý một Bean EntityManager và việc triển khai cụ thể được cung cấp bởi khung Hibernate.
+
+Một đối tượng EntityManager quản lý một tập hợp các thực thể được xác định bởi đơn vị kiên trì. Và người quản lý thực thể chịu trách nhiệm theo dõi tất cả các đối tượng thực thể để biết các thay đổi và đồng bộ hóa các thay đổi với cơ sở dữ liệu.
+
+### Inject an EntityManager object
+
+```
+import javax.persistence.EntityManager;
+ 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+ 
+@Repository
+public class ContactRepository {
+    @Autowired private EntityManager entityManager;
+ 
+}
+```
+
+- EntityManager Create Entity Example
+
+```
+import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
+ 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+ 
+@Repository
+public class ContactRepository {
+ 
+    @Autowired private EntityManager entityManager;
+ 
+    @Transactional
+    public void save(Contact contact) {
+        entityManager.persist(contact);
+    }
+}
+```
+
+
+```
+@SpringBootApplication
+public class Application implements CommandLineRunner {
+     
+    @Autowired private ContactRepository repo;
+     
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
+ 
+    @Override
+    public void run(String... args) throws Exception {
+ 
+        createContact();
+    }
+ 
+    private void createContact() {
+        Contact newContact = new Contact();
+ 
+        newContact.setName("Peter Smith");
+        newContact.setEmail("peter.smith@gmail.com");
+        newContact.setAddress("New York, USA");
+        newContact.setPhone("123456-2111");
+         
+        repo.save(newContact);     
+    }
+     
+}
+```
+
+- EntityManager Update Entity Example
+
+```
+@Transactional
+public Contact update(Contact contact) {
+    return entityManager.merge(contact);
+}
+```
+
+```
+@Override
+public void run(String... args) throws Exception {
+ 
+    updateContact();
+ 
+}
+     
+private void updateContact() {
+    Contact existContact = new Contact();
+     
+    existContact.setId(1);
+    existContact.setName("Peter Smith");
+    existContact.setEmail("peter.smith@gmail.com");
+    existContact.setAddress("New York, USA");
+    existContact.setPhone("123456-2111");
+     
+    Contact updatedContact = repo.update(existContact);
+     
+}
+```
+- EntityManager Query Entities Example
+  
+```
+import java.util.List;
+ 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
+ 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+ 
+@Repository
+public class ContactRepository {
+ 
+    @PersistenceContext private EntityManager entityManager;
+     
+    public List<Contact> findAll() {
+        String jpql = "SELECT c FROM Contact c";
+        TypedQuery<Contact> query = entityManager.createQuery(jpql, Contact.class);
+         
+        return query.getResultList();
+    }
+ 
+}
+```
+
+```
+@Override
+public void run(String... args) throws Exception {
+ 
+    listContacts();
+}
+ 
+private void listContacts() {
+    List<Contact> listContacts = repo.findAll();
+    listContacts.forEach(System.out::println);     
+}
+```
+
+- EntityManager Find Entity by ID Example
+
+```
+public Contact findById(Integer id) {
+    return entityManager.find(Contact.class, id);
+}
+```
+
+```
+@Override
+public void run(String... args) throws Exception {
+    getContact();
+}
+ 
+private void getContact() {
+    Integer contactId = 1;
+    Contact contact = repo.findById(contactId);
+     
+    System.out.println(contact);
+}
+```
 
 
