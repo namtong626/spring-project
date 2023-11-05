@@ -531,3 +531,262 @@ public class HocVien {
 ```
 
 Bởi vì, đây là mối quan hệ nhiều – một nhìn từ đối tượng sinh viên, do đó chúng ta sẽ đặt annotation @ManyToOne trong entity HocVien.
+
+### annotation @OneToMany
+
+Ta có sql create table:
+
+```angular2html
+CREATE TABLE `lophoc` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+ 
+CREATE TABLE `hocvien` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `lophoc_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`lophoc_id`) REFERENCES `lophoc` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+```
+
+- entity Lophoc
+```angular2html
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+ 
+@Entity
+@Table
+public class Lophoc {
+   
+  @Id
+  @GeneratedValue
+  private Integer id;
+   
+  @Column
+  private String name;
+   
+  public Integer getId() {
+     return id;
+  }
+   
+  public void setId(Integer id) {
+    this.id = id;
+  }
+   
+  public String getName() {
+    return name;
+  }
+   
+  public void setName(String name) {
+    this.name = name;
+  }
+ 
+}
+```
+
+- entity Hocvien
+```angular2html
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+ 
+@Entity
+@Table
+public class Hocvien {
+   
+  @Id
+  @GeneratedValue
+  private Integer id;
+   
+  @Column
+  private String name;
+   
+  @ManyToOne
+  @JoinColumn(name = "lophoc_id")
+  private Lophoc lophoc;
+   
+  public Lophoc getLophoc() {
+    return lophoc;
+  }
+   
+  public void seLophoc(Lophoc lophoc) {
+    this.lophoc = lophoc;
+  }
+   
+  public Integer getId() {
+    return id;
+  }
+   
+  public void setId(Integer id) {
+    this.id = id;
+  }
+   
+  public String getName() {
+    return name;
+  }
+   
+  public void setName(String name) {
+    this.name = name;
+  }
+ 
+}
+```
+
+Bây giờ, chúng ta sẽ sử dụng annotation @OneToMany để thể hiện mối quan hệ của bảng lophoc với 
+bảng họcvien trong JPA
+
+Bởi vì, đây là mối quan hệ một – nhiều nhìn từ đối tượng Lophoc nên mình sẽ đặt annotation @OneToMany
+trong đối tượng Lophoc, cụ thể như sau:
+
+```angular2html
+@OneToMany(mappedBy = "lophoc")
+private Collection<Hocvien> hocvien;
+ 
+public Collection<Hocvien> getHocvien() {
+    return students;
+}
+ 
+public void setStudents(Collection<Hocvien> hocvien) {
+    this.hocvien = hocvien;
+}
+```
+
+Như các bạn thấy, trong annotation này, mình đã khai báo một thuộc tính là mappedBy 
+với giá trị là lophoc. Giá trị “lophoc” ở đây là tên biến được định nghĩa với 
+annotation @ManyToOne trong entity Hocvien.
+
+
+###  @OneToOne annotation
+
+Trong JPA, để thể hiện mối quan hệ một cái này tương ứng với một cái kia, 
+ví dụ như một gia sư chỉ dạy 1 học viên duy nhất trong 1 ca chúng ta sẽ sử dụng annotation @OneToOne.
+```angular2html
+CREATE TABLE `schedules` (
+  `id` int(11) NOT NULL,
+  `hocvien_id` int(11) NOT NULL,
+  `time` DATE,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+ 
+CREATE TABLE `tutors` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `schedule_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`schedule_id`) REFERENCES `schedules` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+```
+
+Entity cho những bảng trên có sử dụng annotation @OneToOne sẽ như sau:
+```angular2html
+import javax.persistence.*;
+
+@Entity
+@Table
+public class Tutor {
+
+    @Id
+    @GeneratedValue
+    private Integer id;
+
+    @Column
+    private String name;
+
+    @OneToOne
+    @JoinColumn(name = "schedule_id")
+    private Schedule schedule;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Room getSchedule() {
+        return schedule;
+    }
+
+    public void setSchedule(Schedule schedule) {
+        this.schedule = schedule;
+    }
+}
+```
+
+```angular2html
+import javax.persistence.*;
+
+@Table
+@Entity
+public class Schedule {
+
+    @Id
+    @GeneratedValue
+    private Integer id;
+
+    @Column
+    private Integer hocvien_id;
+
+    @Column
+    private Date time;
+
+    @OneToOne(mappedBy = "schedule")
+    private Tutor tutor;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getHocvienid() {
+        return họcVienId;
+    }
+
+    public void setHocvienid(String hocvienid) {
+        this.hocvienid = hocvienid;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
+    }
+
+    public Tourist getSchedule() {
+        return schedule;
+    }
+
+    public void setSchedule(Schedule schedule) {
+        this.schedule = schedule;
+    }
+}
+```
+
+
+### @ManyToMany annotation
