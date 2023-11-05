@@ -133,7 +133,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
  
 public interface StudentRepository extends JpaRepository<Student, Long> {
-    public List<Student> findByNameAndClazz(String name, String clazz);
+    public List<Student> findByNameAndClasses(String name, String classes);
 }
 ```
 
@@ -147,7 +147,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface StudentRepository extends JpaRepository<Student, Long> {
 
-	public List<Student> findByClazzOrderByNameDesc(String clazz);
+	public List<Student> findByClassesOrderByNameDesc(String classes);
 }
 ```
 
