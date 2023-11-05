@@ -117,6 +117,7 @@ public Contact update(Contact contact) {
     return entityManager.merge(contact);
 }
 ```
+
 ```
 @Override
 public void run(String... args) throws Exception {
@@ -139,8 +140,9 @@ private void updateContact() {
 }
 ```
 - EntityManager Query Entities Example
-  ```
-  import java.util.List;
+  
+```
+import java.util.List;
  
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -164,6 +166,7 @@ public class ContactRepository {
  
 }
 ```
+
 ```
 @Override
 public void run(String... args) throws Exception {
@@ -176,7 +179,9 @@ private void listContacts() {
     listContacts.forEach(System.out::println);     
 }
 ```
+
 - EntityManager Find Entity by ID Example
+
 ```
 public Contact findById(Integer id) {
     return entityManager.find(Contact.class, id);
