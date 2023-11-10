@@ -22,7 +22,7 @@ Docker làm cho những tiến trình này trở nên dễ tiếp cận và dễ
 Một container đang chạy sử dụng một hệ thống filesystem cô lập. Filesystem cô lập này được cung cấp bởi một image và image phải chứa mọi thứ cần thiết để chạy một ứng dụng
  - tất cả các dependencies, configurations, scripts, binaries, v.v. Image cũng chứa các cấu hình khác cho container, chẳng hạn như biến môi trường, default command để run, và metadata khác.
 
-​## Containerize an application
+## Containerize an application
 
 Trong phần hướng dẫn này, bạn sẽ làm việc với trình quản lý danh sách việc cần làm đơn giản chạy trên Node.js. Nếu bạn không quen với Node.js, đừng lo lắng. 
 Hướng dẫn này không yêu cầu bất kỳ kinh nghiệm nào trước đó với JavaScript.
