@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:fragment="layout(content)">
+<head>
+    <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">AdminLTE</title>
+    <span th:replace="~{layouts/head :: head}"></span>
+</head>
+
+<body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<div class="wrapper">
+
+    <!-- Preloader -->
+    <div class="preloader flex-column justify-content-center align-items-center">
+        <img class="animation__wobble" th:src="@{/dist/img/AdminLTELogo.png}" alt="AdminLTELogo" height="60" width="60">
+    </div>
+
+    <!-- Navbar -->
+    <span th:replace="~{layouts/header :: header}"></span>
+    <!-- /.navbar -->
+
+    <!-- Main Sidebar Container -->
+    <span th:replace="~{layouts/sidebar :: sidebar}"></span>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper" >
+    <div th:replace="${content}">
+        <!--    TODO -->
+    </div>
+    <!-- /.content-wrapper -->
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+
+    <!-- Main Footer -->
+    <span th:replace="~{layouts/footer :: footer}"></span>
+</div>
+<!-- ./wrapper -->
+
+<!-- REQUIRED SCRIPTS -->
+<span th:replace="~{layouts/script :: script}"></span>
+
+</body>
+
+</html>
