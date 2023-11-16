@@ -32,7 +32,7 @@ public class UserService implements UserServiceInterface {
     public void saveUser(UserRequest userRequest) {
         User user = new User();
         
-        user.setName(userRequest.getName());
+        user.setFirstname(userRequest.getFirstname());
         user.setEmail(userRequest.getEmail());
 
         String pw = this.passwordEncoder.encode(userRequest.getPassword());
@@ -73,7 +73,7 @@ public class UserService implements UserServiceInterface {
     private UserRequest convertUsers(User user) {
         UserRequest users = new UserRequest();
         users.setId(user.getId());
-        users.setName(user.getName());
+        users.setFirstname(user.getFirstname());
         users.setEmail(user.getEmail());
         
         return users;
