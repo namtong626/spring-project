@@ -36,6 +36,9 @@ public class City {
     @OneToOne(optional = false, mappedBy = "city")
     public UserJobProfile userJobProfile;
 
+    @OneToOne(optional = false, mappedBy = "city")
+    public User user;
+
     @Column(name = "created_at", insertable = false, updatable = false, columnDefinition = "timestamp default current_timestamp")
     @Generated(value = GenerationTime.INSERT)
     @Temporal(TemporalType.TIMESTAMP)

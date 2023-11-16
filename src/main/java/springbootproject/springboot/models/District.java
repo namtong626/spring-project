@@ -32,6 +32,10 @@ public class District {
     @OneToOne(optional = false, mappedBy = "district")
     public UserJobProfile userJobProfile;
 
+    @OneToOne(optional = false, mappedBy = "district")
+    public User user;
+
+
     @Column(name = "created_at", insertable = false, updatable = false, columnDefinition = "timestamp default current_timestamp")
     @Generated(value = GenerationTime.INSERT)
     @Temporal(TemporalType.TIMESTAMP)

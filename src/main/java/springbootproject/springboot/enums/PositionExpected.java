@@ -1,14 +1,5 @@
 package springbootproject.springboot.enums;
 
 public enum PositionExpected {
-    student,
-    fresher,
-    employee,
-    team_leader,
-    supervisor,
-    manager,
-    director,
-    general_director,
-    vice_president,
-    president
+    STUDENT, FRESHER, EMPLOYEE, TEAM_LEAD, SUPERVISOR, MANAGER, DIRECTOR, GENERAL_DIRECTOR, VICE_PRESIDENT, PRESIDENT,
 }

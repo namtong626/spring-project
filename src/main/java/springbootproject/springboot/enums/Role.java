@@ -1,7 +1,7 @@
 package springbootproject.springboot.enums;
 
 public enum Role {
-    ADMIN,
-    STAFF,
-    END_USER
+    ROLE_ADMIN,
+    ROLE_STAFF,
+    ROLE_END_USER
 }
