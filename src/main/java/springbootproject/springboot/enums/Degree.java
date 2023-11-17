@@ -1,5 +1,5 @@
 package springbootproject.springboot.enums;
 
 public enum Degree {
-    not_graduated, high_school, intermediate, college, university, postgraduate, other
+    NOT_GRADUATED, HIGH_SCHOOL, INTERMEDIATE, COLLEGE, UNIVERSITY, POSTGRADUATE, OTHER,
 }

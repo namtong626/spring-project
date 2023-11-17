@@ -33,9 +33,9 @@ public class SpringSecuriry {
                     .requestMatchers("/build/**").permitAll()
                     .requestMatchers("/dist/**").permitAll()
                     .requestMatchers("/plugins/**").permitAll()
-                    .requestMatchers("/dashboard").hasRole("ADMIN")
-                    .requestMatchers("/users/**").hasRole("ADMIN")
-                    .requestMatchers("/users1/**").hasRole("ADMIN")
+                    .requestMatchers("/dashboard").hasAuthority("ROLE_ADMIN")
+                    .requestMatchers("/users/**").hasAuthority("ROLE_ADMIN")
+                    .requestMatchers("/users1/**").hasAuthority("ROLE_ADMIN")
 
             )
             .formLogin(form -> form

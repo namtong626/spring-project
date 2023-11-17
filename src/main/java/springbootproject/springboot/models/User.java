@@ -18,8 +18,10 @@ import springbootproject.springboot.enums.MaritalStatus;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "users")
-
+@Table(name = "users",
+        indexes = {
+        @Index(name = "email_index", columnList = "email"),
+})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,11 +45,15 @@ public class User {
     @Column(nullable = false)
     private String address;
 
-    @Column(nullable = false)
-    private String city;
+    @OneToOne(optional=true)
+    @JoinColumn(name="city_id")
+    private City city;
 
-    @Column(nullable = false)
-    private String district;
+
+    @OneToOne(optional=true)
+    @JoinColumn(name="district_id")
+    private District district;
+
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -74,9 +80,10 @@ public class User {
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime updated_at;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinTable(name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private List<Role> roles = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
