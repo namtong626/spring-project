@@ -19,8 +19,8 @@ public class PostService implements PostServiceInterface {
    
 
     public PostService(
-        PostReponsitoryInterface postRepo;
-        CategoryReponsitoryInterface categoryRepo;
+        PostReponsitoryInterface postRepo,
+        CategoryReponsitoryInterface categoryRepo
         
     ) {
         this.postRepo = userRepo;
@@ -41,8 +41,8 @@ public class PostService implements PostServiceInterface {
         post.setExperience(postRequest.getExperience());
         post.setCertificate(postRequest.getCertificate());
         post.setCategoryName(postRequest.getCategoryName());
-        post.setAddress(postRequest.getAddress())
-        post.setSex(postRequest.getSex())
+        post.setAddress(postRequest.getAddress());
+        post.setSex(postRequest.getSex());
 
 
         this.postRepo.save(post);
