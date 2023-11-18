@@ -26,12 +26,15 @@ public class City {
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
+    private String codename;
+
     @ManyToOne
     @JoinColumn(name = "country_id")
     private Country country;
 
     @OneToMany(mappedBy = "city", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Collection<District> district;
+    private Collection<District> districts;
 
     @OneToOne(optional = false, mappedBy = "city")
     public UserJobProfile userJobProfile;
@@ -48,4 +51,12 @@ public class City {
     @Generated(value = GenerationTime.ALWAYS)
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime updated_at;
+
+    public void setDistricts(Collection<District> districts) {
+        this.districts = districts;
+        for (District district : districts) {
+            district.setCity(this);
+        }
+    }
+
 }

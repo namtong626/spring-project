@@ -25,6 +25,9 @@ public class District {
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
+    private String codename;
+
     @ManyToOne
     @JoinColumn(name="city_id")
     private City city;
