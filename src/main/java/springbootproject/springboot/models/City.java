@@ -10,6 +10,7 @@ import org.hibernate.annotations.GenerationTime;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
 
 @Getter
 @Setter
@@ -34,7 +35,7 @@ public class City {
     private Country country;
 
     @OneToMany(mappedBy = "city", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Collection<District> districts;
+    private List<District> districts;
 
     @OneToOne(optional = false, mappedBy = "city")
     public UserJobProfile userJobProfile;
@@ -51,12 +52,4 @@ public class City {
     @Generated(value = GenerationTime.ALWAYS)
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime updated_at;
-
-    public void setDistricts(Collection<District> districts) {
-        this.districts = districts;
-        for (District district : districts) {
-            district.setCity(this);
-        }
-    }
-
 }
