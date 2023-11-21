@@ -10,7 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -39,8 +39,13 @@ public class Job {
     @Column (nullable = false)
     private String category; // mapp với category 
 
+    //salary
     @Column (nullable = false)
-    private String salary; // mức thu nhập dao động của công việc 
+    private double salary_from; 
+
+    @Column (nullable = false)
+    private double salary_to;
+
 
     @Column (nullable = false)
     private String inquiry; //yêu cầu, điều kiện cần có - ex: tốt nghiệp, thành thạo kỹ năng x
@@ -63,12 +68,14 @@ public class Job {
     @Column(nullable = false, name = "Timeline")
     private Date finalTime_employment; // thời gian kết thúc tuyển dụng công việc 
 
-    @ManyToMany (fetch = FetchType.EAGER)
-    @JoinTable (
-        name = "company_job",
-        joinColumns = @JoinColumn(name = "job_id", referencedColumnName = "job_id"),
-        inverseJoinColumns = @JoinColumn(name = "company_id", referencedColumnName = "company_id")
-    )
-    private List<Company> companys = new ArrayList();
+    //Mapping với company
+    @ManyToOne
+    @JoinColumn(name = "company_id", nullable = false)
+    private Company company; // tên công ty
+   
+    //Mapping với JobCategory
+    @ManyToOne
+    @JoinColumn(name = "id", nullable = false)
+    private JobCategory job_category; //thể loại công việc
 
 }
