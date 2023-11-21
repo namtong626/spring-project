@@ -10,6 +10,7 @@ import org.hibernate.annotations.GenerationTime;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
 
 @Getter
 @Setter
@@ -26,12 +27,15 @@ public class City {
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
+    private String codename;
+
     @ManyToOne
     @JoinColumn(name = "country_id")
     private Country country;
 
     @OneToMany(mappedBy = "city", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Collection<District> district;
+    private List<District> districts;
 
     @OneToOne(optional = false, mappedBy = "city")
     public UserJobProfile userJobProfile;
