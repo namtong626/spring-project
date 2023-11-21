@@ -28,20 +28,17 @@ public class Company {
        @Column (name = "company_id") //làm khóa chính 
        private Long id; 
 
-       @Column (nullable = false)
-       private String account; // map tới user_ company 
-
-       @Column (nullable = false)
+       @Column (nullable = true)
        private String activity; // chứa info lĩnh vực kinh doanh của công ty - ex: xuất nhập khẩu, technology
 
-       @Column (nullable = false)
+       @Column (nullable = true)
        private String description; // chứa mô tả về công kinh: năm thành lập, triết lý kinh doanh, slogan
 
-       @Column (nullable = false)
+       @Column (nullable = true)
        private int follower; // chứa số lượng ứng viên tiềm năng theo dõi của công ty
 
        @Column (nullable = false)
-       private String gmail; // chứa địa chỉ gmail của công ty
+       private String email; // chứa địa chỉ gmail của công ty
 
        @Column (nullable = false)
        private String location; // trụ sở công ty
