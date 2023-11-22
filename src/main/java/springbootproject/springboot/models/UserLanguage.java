@@ -25,7 +25,7 @@ public class UserLanguage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(optional=false)
+    @ManyToOne
     @JoinColumn(name="country_id")
     private Country country;
 

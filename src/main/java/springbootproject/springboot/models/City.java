@@ -38,7 +38,7 @@ public class City {
     private List<District> districts;
 
     @OneToOne(optional = false, mappedBy = "city")
-    public UserJobProfile userJobProfile;
+    public Profile profile;
 
     @OneToOne(optional = false, mappedBy = "city")
     public User user;

@@ -79,4 +79,7 @@ public class UserService implements UserServiceInterface {
         return users;
     }
 
+    public List<User> getUserByRole(String roleName, String keyword, int limit) {
+        return this.userRepo.findByConditions(roleName, keyword, limit);
+    }
 }
