@@ -1,7 +1,7 @@
 package springbootproject.springboot.services;
 
+import springbootproject.springboot.contracts.repositories.CategoryRepositoryInterface;
 import springbootproject.springboot.contracts.repositories.PostRepositoryInterface;
-import springbootproject.springboot.contracts.repositories.CategoryReponsitoryInterface;
 import springbootproject.springboot.contracts.services.PostServiceInterface;
 import springbootproject.springboot.models.Post;
 import springbootproject.springboot.models.Category;
@@ -9,77 +9,94 @@ import springbootproject.springboot.requests.PostRequest;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.stereotype.Service;
 
 @Service
 public class PostService implements PostServiceInterface {
-    protected PostReponsitoryInterface postRepo;
-    protected CategoryReponsitoryInterface categoryRepo;
-   
+    protected PostRepositoryInterface postRepo;
+    protected CategoryRepositoryInterface cateRepo;
+
 
     public PostService(
-        PostReponsitoryInterface postRepo,
-        CategoryReponsitoryInterface categoryRepo
-        
+        PostRepositoryInterface postRepo;
+        CategoryRepositoryInterface cateRepo;
+
+    
     ) {
         this.postRepo = userRepo;
-        this.categoryRepo = categoryRepo;
-       
+        this.cateRepo = roleRepo;
+    
     }
     
     @Override
     public void savePost(PostRequest postRequest) {
         Post post = new Post();
         
-        post.setJobName(postRequest.getJobName());
-        post.setJobDescription(postRequest.getJobDescription());
+        post.setTitle(postRequest.getTitle());
         post.setDateTime(postRequest.getDateTime());
-        post.setCity(postRequest.getCity());
-        post.setCompany(postRequest.getCompany());
-        post.setSalary(postRequest.getSalary());
-        post.setExperience(postRequest.getExperience());
-        post.setCertificate(postRequest.getCertificate());
+
+        String title = postRequest.getTitle();
+        String slug = title.replace(" ", "-");
+        post.setPostImage(postRequest.getPostImage());
         post.setCategoryName(postRequest.getCategoryName());
-        post.setAddress(postRequest.getAddress());
-        post.setSex(postRequest.getSex());
-
-
+        post.setContent(postRequest.getContent());
         this.postRepo.save(post);
     }
 
     @Override
-    public void deletePost(Long postId) {
-        this.postRepo.deleteById(postId);
-        assertThat(this.postRepo.count()).isEqualTo(1);
+    public void deletePost(Long id) {
+      
+         this.postRepo.delete(id);
+          
     }
-
 
     
 
+  
+
     @Override
     public List<PostRequest> getPostDataList() {
-        List<Post> posts = this.postRepo.findAll();
-        return posts.stream().map((post) -> convertUsers(post))
+        List<post> post = this.postRepo.findAll();
+        return posts.stream().map((post) -> convertPosts(post))
             .collect(Collectors.toList());
     }
 
     private PostRequest convertPosts(Post post) {
-       PostRequest posts = new PostRequest();
+        PostRequest posts = new PostRequest();
         posts.setId(post.getId());
-        posts.setJobName(post.getJobName());
-        posts.setJobDescription(user.getJobDescription());
+        posts.setTitlename(post.getTitle());
+        posts.setSlug(post.getSlug());
         posts.setDateTime(post.getDateTime());
-        posts.setCity(post.getCity());
-        posts.setSalary(post.getSalary());
-        posts.setCompany(post.getCompany());
-        posts.setExperience(post.getExperience());
-        posts.setCertificate(post.getCertificate());
+        posts.setPostImage(post.getPostImage());
         posts.setCategoryName(post.getCategoryName());
-        posts.setAddress(post.getAddress());
-        posts.setSex(post.getSex());
-        
+        posts.setContent(post.getContent());
+
         return posts;
+    }
+
+
+    @Override
+    public List<Post> getSearchDataList(String keyWord) {
+        List<Post> posts = new ArrayList<>();
+        if (keyWord == null || keyWord.isEmpty() || keyWord.isBlank()) {
+            users = this.postRepo.findAll();
+        } else {
+            users = this.postRepo.search(keyWord);
+        }
+        List<Post> dataSearch = new ArrayList<>();
+        for (Post post : posts) {
+           Post data = Post.builder()
+                    .id(post.getId())
+                    .title(post.getTitle())
+                    .slug(post.getSlug())
+                    .dateTime(post.getDateTime())
+                    .categoryName(post.categoryName())
+                    .content(post.getContent())
+                    .build();
+            dataSearch.add(data);
+        }
+        return dataSearch;
     }
 
 }

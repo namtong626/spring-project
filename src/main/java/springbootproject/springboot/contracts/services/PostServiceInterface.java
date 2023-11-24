@@ -11,4 +11,5 @@ public interface PostServiceInterface {
     Post findByJobName(String jobName);
 
     List<PostRequest> getPostDataList();
+    List<PostRequest> getSearchDataList(String keyWord);
 }

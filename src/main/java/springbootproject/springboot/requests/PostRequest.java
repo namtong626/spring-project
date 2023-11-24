@@ -15,37 +15,32 @@ import lombok.Setter;
 public class UserRequest {
     private Long id;
 
-    @NotEmpty(message = "Job name should not be empty")
-    private String jobName;
+     @NotEmpty(message = "this title should not be empty")
+    private String title;
+
+
+    @NotEmpty(message = "this slug cann't be empty")
+    private String slug;
 
     
-    @NotEmpty(message = "Job decripttion should not be empty")
-    private String jobDescription;
+    @NotEmpty(message = "this image cann't be empty")
+    private String postImage;
 
     @NotEmpty(message = "Date time should not be empty")
     private String dateTime;
 
-    @Column(nullable = false)
 
-    private String city;
+    @NotEmpty(message = "content should not be empty")
+    private String content;
+
+   
 
    
 
-    @NotEmpty(message = "Salary should not be empty")
-    private String salary;
-
-    @NotEmpty(message = "Company name should not be empty")
-    private String compary;
+  
 
    
-    private String experience;
+  
 
-    private String certificate;
-
-    @NotEmpty(message = "Address field should not be empty")
-    private Address address;
    
-    
-    @Min(value=0, message="0: regardless of gender, 1: male, 2: female")
-    private Integer sex;
 }

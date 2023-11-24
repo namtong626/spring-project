@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.Builder;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -22,43 +23,34 @@ import java.util.Collection;
 @AllArgsConstructor
 @Entity
 @Table(name="posts")
+@Builder
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+   
+      
     @Column(nullable = false)
-    private String jobName;
-
-    
-    @Column(nullable = false)
-    private String jobDescription;
+    private String title;
+     
+     @Column(nullable = false)
+    private String slug;
 
     @Column(nullable = false)
     private String dateTime;
 
-    private String city;
-
-   
+    
+    @Column(nullable = false)
+    private String postImage;
 
     @Column(nullable = false)
-    private String salary;
-
-    @Column(nullable = false)
-    private String company;
-
- 
-    private String experience;
-
-    private String certificate;
+    private String content;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "categoryName", referencedColumnName = "categoryName")
     private String categoryName;
     
-    
-    private Address address;
-    private Integer sex;
     
     @Column(name = "created_at", insertable = false, updatable = false, columnDefinition = "timestamp default current_timestamp")
     @Generated(value = GenerationTime.INSERT)

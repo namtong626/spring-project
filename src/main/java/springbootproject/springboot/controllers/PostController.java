@@ -20,7 +20,7 @@ public class PostController {
     
     protected PostService postService;;
 
-    public PostController(PostServiceInterface userService) {
+    public PostController(PostServiceInterface postService) {
         this.postService = postService;
     }
 
@@ -58,7 +58,7 @@ public class PostController {
 
     @PostMapping("/post/save")
     public ResponseEntity<String> save(
-        @Valid @ModelAttribute("post") PostRequest postRequest,
+        @Valid @ModelAttribute("savePost") PostRequest postRequest,
         BindingResult result,
         Model model
     ) {
@@ -76,7 +76,7 @@ public class PostController {
 
     @PostMapping("post/delete")
     public ResponseEntity<String> delete(
-        @Valid @ModelAttribute("post") PostRequest postRequest,
+        @Valid @ModelAttribute("deletePost") PostRequest postRequest,
         BindingResult result,
         Model model
     ) {
@@ -90,6 +90,25 @@ public class PostController {
 		this.postService.deletePost(postRequest);
 
         return ResponseEntity.ok("delete successfully");
+    }
+
+    @GetMapping("/post/loadPost")
+    public String getPostDataList(Model model) {
+        List<Post> posts = this.postService.getPostDataList();
+        model.addAttribute("loadPost", posts);
+
+        return "post/post";
+    }
+
+    @GetMapping("post/search")
+    public String search(@RequestParam("keyword") String keyWord, Model model) {
+        List<Post> dataSearch = this.PostServiceInterface.getSearchDataList(keyWord);
+        if (dataSearch.isEmpty()) {
+            model.addAttribute("errorMessage", "DATA NOT FOUND !");
+            return "post/modal/post_table";
+        }
+        model.addAttribute("posts", dataSearch);
+        return "post/modal/post_table";
     }
 
 
