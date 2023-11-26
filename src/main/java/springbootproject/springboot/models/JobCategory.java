@@ -39,4 +39,8 @@ public class JobCategory {
     @Generated(value = GenerationTime.ALWAYS)
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime updated_at;
+
+    // relationship between Job and JobCategory
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Job> jobs;
 }

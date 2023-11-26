@@ -1,6 +1,6 @@
 package springbootproject.springboot.models;
 
-
+import springbootproject.springboot.models.Job;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,6 +11,7 @@ import org.hibernate.annotations.GenerationTime;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.*;
 
 @Getter
 @Setter
