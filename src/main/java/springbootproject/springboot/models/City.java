@@ -10,6 +10,7 @@ import org.hibernate.annotations.GenerationTime;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.*;
 
 @Getter
 @Setter
@@ -48,4 +49,8 @@ public class City {
     @Generated(value = GenerationTime.ALWAYS)
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime updated_at;
+
+    // relationship with job 
+    @ManyToMany (mappedBy = "city", fetch = FetchType.EAGER)
+    private List<Job> job;
 }

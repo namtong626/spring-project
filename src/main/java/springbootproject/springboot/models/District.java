@@ -1,5 +1,7 @@
 package springbootproject.springboot.models;
 
+import java.util.*;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,6 +11,7 @@ import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 
 import java.time.LocalDateTime;
+
 
 @Getter
 @Setter
@@ -45,4 +48,8 @@ public class District {
     @Generated(value = GenerationTime.ALWAYS)
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime updated_at;
+
+    // relationship with job 
+    @ManyToMany (mappedBy = "district ", fetch = FetchType.EAGER)
+    private List<Job> job;
 }
