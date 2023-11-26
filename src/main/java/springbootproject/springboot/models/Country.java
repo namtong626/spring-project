@@ -27,11 +27,14 @@ public class Country {
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
+    private String language;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "country")
     private Collection<City> city;
 
     @OneToOne(optional = false, mappedBy = "country")
-    public UserJobProfile userJobProfile;
+    public Profile profile;
 
     @Column(name = "created_at", insertable = false, updatable = false, columnDefinition = "timestamp default current_timestamp")
     @Generated(value = GenerationTime.INSERT)

@@ -11,4 +11,6 @@ public interface UserServiceInterface {
     User findByEmail(String email);
 
     List<UserRequest> getUsersDataList();
+
+    List<User> getUserByRole(String roleName, String keyword, int limit);
 }
