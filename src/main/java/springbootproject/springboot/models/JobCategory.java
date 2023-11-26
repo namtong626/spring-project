@@ -28,7 +28,7 @@ public class JobCategory {
     private String name;
 
     @ManyToMany(mappedBy="jobCategory")
-    private List<UserJobProfile> userJobProfile;
+    private List<Profile> profile;
 
     @Column(name = "created_at", insertable = false, updatable = false, columnDefinition = "timestamp default current_timestamp")
     @Generated(value = GenerationTime.INSERT)

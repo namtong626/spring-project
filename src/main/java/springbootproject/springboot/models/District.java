@@ -28,12 +28,15 @@ public class District {
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
+    private String codename;
+
     @ManyToOne
     @JoinColumn(name="city_id")
     private City city;
 
     @OneToOne(optional = false, mappedBy = "district")
-    public UserJobProfile userJobProfile;
+    public Profile profile;
 
     @OneToOne(optional = false, mappedBy = "district")
     public User user;

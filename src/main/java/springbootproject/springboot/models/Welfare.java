@@ -27,7 +27,7 @@ public class Welfare {
     private String name;
 
     @ManyToMany(mappedBy="welfare")
-    private List<UserJobProfile> userJobProfile;
+    private List<Profile> profile;
 
     @Column(name = "created_at", insertable = false, updatable = false, columnDefinition = "timestamp default current_timestamp")
     @Generated(value = GenerationTime.INSERT)

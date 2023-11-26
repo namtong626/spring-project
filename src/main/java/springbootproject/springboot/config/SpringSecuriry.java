@@ -16,7 +16,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableWebSecurity
 public class SpringSecuriry {
-    
+
     @Autowired
     private UserDetailsService userDetailsService;
 
@@ -25,35 +25,36 @@ public class SpringSecuriry {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean 
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http.csrf(csrf -> csrf.disable())
-            .authorizeHttpRequests((auth) -> 
-                auth.requestMatchers("/register/**").permitAll()
-                    .requestMatchers("/build/**").permitAll()
-                    .requestMatchers("/dist/**").permitAll()
-                    .requestMatchers("/plugins/**").permitAll()
-                    .requestMatchers("/dashboard").hasAuthority("ROLE_ADMIN")
-                    .requestMatchers("/users/**").hasAuthority("ROLE_ADMIN")
-                    .requestMatchers("/users1/**").hasAuthority("ROLE_ADMIN")
+                .authorizeHttpRequests((auth) ->
+                        auth.requestMatchers("/register/**").permitAll()
+                                .requestMatchers("/build/**").permitAll()
+                                .requestMatchers("/dist/**").permitAll()
+                                .requestMatchers("/plugins/**").permitAll()
+                                .requestMatchers("/dashboard").hasAuthority("ROLE_ADMIN")
+                                .requestMatchers("/customers/**").hasAuthority("ROLE_ADMIN")
+                                .requestMatchers("/users/**").hasAuthority("ROLE_ADMIN")
+                                .requestMatchers("/users1/**").hasAuthority("ROLE_ADMIN")
 
-            )
-            .formLogin(form -> form
-                .loginPage("/login")
-                .loginProcessingUrl("/login")
-                .defaultSuccessUrl("/dashboard")
-                .permitAll()
-            ).logout(
-                logout -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                    .permitAll()
-            )
-            .build();
+                )
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .loginProcessingUrl("/login")
+                        .defaultSuccessUrl("/dashboard")
+                        .permitAll()
+                ).logout(
+                        logout -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                                .permitAll()
+                )
+                .build();
     }
 
-    @Autowired 
+    @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService)
-            .passwordEncoder(passwordEncoder());
+                .passwordEncoder(passwordEncoder());
     }
 }
 

@@ -3,6 +3,7 @@ package springbootproject.springboot.services;
 import springbootproject.springboot.contracts.repositories.RoleRepositoryInterface;
 import springbootproject.springboot.contracts.repositories.UserRepositoryInterface;
 import springbootproject.springboot.contracts.services.UserServiceInterface;
+import springbootproject.springboot.helpers.Common;
 import springbootproject.springboot.models.Role;
 import springbootproject.springboot.models.User;
 import springbootproject.springboot.requests.UserRequest;
@@ -79,4 +80,7 @@ public class UserService implements UserServiceInterface {
         return users;
     }
 
+    public List<User> getUserByRole(String roleName, String keyword, int limit) {
+        return this.userRepo.findByConditions(roleName, keyword, limit);
+    }
 }
