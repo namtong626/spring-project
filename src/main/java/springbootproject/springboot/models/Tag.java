@@ -14,6 +14,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import springbootproject.springboot.enums.TagType;
 
 @Getter
 @Setter
@@ -25,14 +26,15 @@ public class Tag {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     
-    @Column (name = "tag_id")
+    @Column
     private Long id;
 
     @Column (nullable = false)
     private String tag_name;
 
+    @Column(nullable = false)
     @Enumerated (EnumType.STRING)
-    private Entity enity;
+    private TagType enities;
 
     // relationship with job
     @ManyToMany(mappedBy = "tags" )

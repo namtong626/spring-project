@@ -1,5 +1,5 @@
 package springbootproject.springboot.enums;
 
-public enum Enity {
+public enum TagType {
     JOB, BLOG
 }

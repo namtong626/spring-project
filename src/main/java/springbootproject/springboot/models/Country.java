@@ -46,8 +46,4 @@ public class Country {
     @Generated(value = GenerationTime.ALWAYS)
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime updated_at;
-
-    // relationship with job
-    @ManyToMany (mappedBy = "country", fetch = FetchType.EAGER)
-    private List<Job> job;
 }

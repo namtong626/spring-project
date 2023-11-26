@@ -52,7 +52,4 @@ public class District {
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime updated_at;
 
-    // relationship with job 
-    @ManyToMany (mappedBy = "district ", fetch = FetchType.EAGER)
-    private List<Job> job;
 }

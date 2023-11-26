@@ -1,8 +1,13 @@
 package springbootproject.springboot.models;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -37,7 +42,7 @@ public class Job {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
 
-    @Column (name = "job_id")
+    @Column
     private Long id; 
 
     //Mapping với company
@@ -49,28 +54,28 @@ public class Job {
     @OneToMany(fetch = FetchType.EAGER)
     private List<JobCategory> job_category_id;
 
-    @Column
+    @Column(nullable = false)
     private String title; // tên công việc
 
-    @Column
-    private String discription; //chi tiết công việc
+    @Column(nullable = false)
+    private String description; //chi tiết công việc
 
-    @Column
+    @Column(nullable = false)
     private Date start_date;
 
-    @Column
+    @Column(nullable = false)
     private Date end_date;
 
-    @Column (columnDefinition="TINYINT COMMENT '0: NotRequirement, 2: Male, 3: female'")
+    @Column (columnDefinition="TINYINT COMMENT '0: NotRequirement, 2: Male, 3: female'", nullable = false)
     private int gender; 
 
-    @Column (columnDefinition = "TINYINT COMMENT '0: None, 1: Remote'")
+    @Column (columnDefinition = "TINYINT COMMENT '0: None, 1: Remote'", nullable = false)
     private int working_from;
 
-    @Column (columnDefinition = "TINYINT COMMENT '0: NotRequirement, 2: At least 1 year, 3: At least 2 years, 4: At least 3 years, 5: At least 4 years, 6: At least 5 years, 7: At least 6 years, 8: At least 7 years, 9: At least 8 years, 10: At least 9 years, 11: At least 10 years'")
+    @Column (columnDefinition = "TINYINT COMMENT '0: NotRequirement, 2: At least 1 year, 3: At least 2 years, 4: At least 3 years, 5: At least 4 years, 6: At least 5 years, 7: At least 6 years, 8: At least 7 years, 9: At least 8 years, 10: At least 9 years, 11: At least 10 years'", nullable = false)
     private int experience;
 
-    @Column (columnDefinition = "TINYINT COMMENT '0: following Range, 1: following negotiation'")
+    @Column (columnDefinition = "TINYINT COMMENT '0: following Range, 1: following negotiation'", nullable = false)
     private int salary_type;
 
     @Column (nullable = true)
@@ -79,57 +84,44 @@ public class Job {
     @Column (nullable = true)
     private double salary_to; //mức lương dao động đến
 
+    @Column(nullable = false)
     @Enumerated (EnumType.STRING)
     private Exchange exchange;
 
+    @Column(nullable = false)
     @Enumerated (EnumType.STRING)
     private PositionExpected poistion;
 
+    @Column(nullable = false)
     @Enumerated (EnumType.STRING)
     private Degree degree;
 
-    @Column 
+    @Column(nullable = false)
     private String address;
 
+    @Column(name = "created_at", insertable = false, updatable = false, columnDefinition = "timestamp default current_timestamp")
+    @Generated(value = GenerationTime.INSERT)
     @Temporal(TemporalType.TIMESTAMP)
-    private LocalDate created_at;
+    private LocalDateTime created_at;
 
+    @Column(insertable = false, updatable = false, columnDefinition = "timestamp default current_timestamp ON UPDATE current_timestamp")
+    @Generated(value = GenerationTime.ALWAYS)
     @Temporal(TemporalType.TIMESTAMP)
-    private LocalDate updated_at;
-
+    private LocalDateTime updated_at;
+    
     // relationship with Tag
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable (
         name ="jobs_tags",
-        joinColumns = @JoinColumn(name = "id", referencedColumnName = "job_id"),
-        inverseJoinColumns = @JoinColumn(name = "id", referencedColumnName = "tag_id")
+        joinColumns = @JoinColumn(name = "job_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id")
     )
     private List<Tag> tags = new ArrayList<>();
 
     // relationship with City
-    @ManyToMany
-    @JoinTable (
-        name ="jobs_cities",
-        joinColumns = @JoinColumn(name = "id", referencedColumnName = "job_id"),
-        inverseJoinColumns = @JoinColumn(name ="id")
-    )
-    private List<City> city = new ArrayList<>();
-
-    // relationship with country
-    @ManyToMany
-    @JoinTable (
-        name = "jobs_countries",
-        joinColumns = @JoinColumn(name = "id", referencedColumnName = "job_id"),
-        inverseJoinColumns = @JoinColumn(name ="id")
-    )
-    private List<Country> country = new ArrayList<>();
-
-    // relationship with district
-    @ManyToMany
-    @JoinTable (
-        name = "jobs_districts",
-        joinColumns = @JoinColumn(name = "id", referencedColumnName = "job_id"),
-        inverseJoinColumns = @JoinColumn(name="id")
-    )
-    private List<District> district = new ArrayList<>();
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinTable(name = "jobs_cities",
+            joinColumns = @JoinColumn(name = "job_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "city_id", referencedColumnName = "id"))
+    private List<City> cities = new ArrayList<>();
 }

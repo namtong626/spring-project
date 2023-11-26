@@ -53,6 +53,6 @@ public class City {
     private LocalDateTime updated_at;
 
     // relationship with job 
-    @ManyToMany (mappedBy = "city", fetch = FetchType.EAGER)
+    @ManyToMany (mappedBy = "cities")
     private List<Job> job;
 }
