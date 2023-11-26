@@ -18,6 +18,6 @@ public interface UserRepositoryInterface extends JpaRepository<User, Long> {
             "INNER JOIN roles ON users_roles.role_id = roles.id\n" +
             "WHERE roles.name = :roleName " +
             "AND (:keyword IS NULL OR CONCAT(firstname, ' ', lastname) LIKE CONCAT('%', :keyword, '%')) \n" +
-            "LIMIT :limit;", nativeQuery = true)
+            "LIMIT :limit", nativeQuery = true)
     List<User> findByConditions(String roleName, String keyword, int limit);
 }

@@ -18,9 +18,12 @@ public class CustomerController {
     }
 
 
-    @GetMapping("/customers")
+    @RequestMapping("/customers")
     public String index() {
         List<User> users = this.userService.getUserByRole("ROLE_END_USER", "", 10);
+        for (User entity : users) {
+
+        }
 
         return "pages/users";
     }
