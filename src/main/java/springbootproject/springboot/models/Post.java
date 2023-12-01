@@ -24,7 +24,7 @@ import java.util.Collection;
 @Entity
 @Table(name="posts")
 @Builder
-public class Role {
+public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

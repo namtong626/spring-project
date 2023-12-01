@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserRequest {
+public class PostRequest {
     private Long id;
 
      @NotEmpty(message = "this title should not be empty")

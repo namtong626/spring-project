@@ -30,6 +30,8 @@ public class JobCategory {
     @ManyToMany(mappedBy="jobCategory")
     private List<UserJobProfile> userJobProfile;
 
+    
+
     @Column(name = "created_at", insertable = false, updatable = false, columnDefinition = "timestamp default current_timestamp")
     @Generated(value = GenerationTime.INSERT)
     @Temporal(TemporalType.TIMESTAMP)

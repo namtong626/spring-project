@@ -19,8 +19,8 @@ public class PostService implements PostServiceInterface {
 
 
     public PostService(
-        PostRepositoryInterface postRepo;
-        CategoryRepositoryInterface cateRepo;
+        PostRepositoryInterface postRepo,
+        CategoryRepositoryInterface cateRepo
 
     
     ) {
@@ -51,7 +51,7 @@ public class PostService implements PostServiceInterface {
           
     }
 
-    
+   
 
   
 
@@ -77,7 +77,7 @@ public class PostService implements PostServiceInterface {
 
 
     @Override
-    public List<Post> getSearchDataList(String keyWord) {
+    public List<PostRequest> getSearchDataList(String keyWord) {
         List<Post> posts = new ArrayList<>();
         if (keyWord == null || keyWord.isEmpty() || keyWord.isBlank()) {
             users = this.postRepo.findAll();

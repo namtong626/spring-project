@@ -30,7 +30,7 @@ public class PostController {
         PostRequest post = new PostRequest();
         model.addAttribute("post", post);
 
-        return "/post/show";
+        return "/post/post";
     }
     
 
