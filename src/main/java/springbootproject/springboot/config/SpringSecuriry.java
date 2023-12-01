@@ -30,6 +30,7 @@ public class SpringSecuriry {
         return http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests((auth) ->
                         auth.requestMatchers("/register/**").permitAll()
+                                .requestMatchers("/job/**").permitAll()
                                 .requestMatchers("/build/**").permitAll()
                                 .requestMatchers("/dist/**").permitAll()
                                 .requestMatchers("/plugins/**").permitAll()

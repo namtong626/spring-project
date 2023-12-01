@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>AdminLTE 3 | Dashboard 2</title>
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" th:href="@{/plugins/overlayScrollbars/css/OverlayScrollbars.min.css}">
+    <span th:replace="~{layouts/head :: head}"></span>
+</head>
+
+<body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+    <div class="wrapper">
+
+        <!-- Preloader -->
+        <div class="preloader flex-column justify-content-center align-items-center">
+            <img class="animation__wobble" th:src="@{/dist/img/AdminLTELogo.png}" alt="AdminLTELogo" height="60" width="60">
+        </div>
+
+        <!-- Navbar -->
+        <span th:replace="~{layouts/header :: header}"></span>
+        <!-- /.navbar -->
+
+        <!-- Main Sidebar Container -->
+        <span th:replace="~{layouts/sidebar :: sidebar}"></span>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>Danh sách công việc</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Danh sách công việc</li>
+                        </ol>
+                    </div>
+                    </div>
+                </div>
+                <table class="table table-bordered table-striped">
+			
+                    <thead>
+                        <tr>
+                            <th>Address</th>
+                            <th>Created_at</th>
+                            <th>Degree</th>
+                            <th>Description</th>
+                            <th>End date</th>
+                            <th>Exchange</th>
+                            <th>Experience</th>
+                            <th>Gender</th>
+                            <th>Position</th>
+                            <th>Salary from</th>
+                            <th>Salary to</th>
+                            <th>Salary type</th>
+                            <th>Start Date</th>
+                            <th>Title</th>
+                            <th>Update</th>
+                            <th>Working from</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="job: ${jobs}">
+                            <td th:text="${job.address}"/>
+                            <td th:text="${job.created_at}" />
+                            <td th:text="${job.degree}" />
+                            <td th:text="${job.description}"/>
+                            <td th:text="${job.end_date}" />
+                            <td th:text="${job.exchange}" />
+                            <td th:text="${job.experience}"/>
+                            <td th:text="${job.gender}" />
+                            <td th:text="${job.position}" />
+                            <td th:text="${job.salary_from}"/>
+                            <td th:text="${job.salary_to}" />
+                            <td th:text="${job.salary_type}" />
+                            <td th:text="${job.start_date}" />
+                            <td th:text="${job.title}" />
+                            <td th:text="${job.updated_at}"/>
+                            <td th:text="${job.working_from}" />
+                        </tr>
+                    </tbody>
+                    
+                </table>
+            </section>
+        </div>
+           <!-- Control Sidebar -->
+           <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+        </aside>
+        <!-- /.control-sidebar -->
+
+        <!-- Main Footer -->
+        <span th:replace="~{layouts/footer :: footer}"></span>
+    </div>
+    <!-- ./wrapper -->
+
+    <!-- REQUIRED SCRIPTS -->
+    <span th:replace="~{layouts/script :: script}"></span>
+    
+    <!-- overlayScrollbars -->
+    <script th:src="@{plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js}"></script>
+    <!-- PAGE PLUGINS -->
+    <!-- jQuery Mapael -->
+    <script th:src="@{plugins/jquery-mousewheel/jquery.mousewheel.js}"></script>
+    <script th:src="@{plugins/raphael/raphael.min.js}"></script>
+    <script th:src="@{plugins/jquery-mapael/jquery.mapael.min.js}"></script>
+    <script th:src="@{plugins/jquery-mapael/maps/usa_states.min.js}"></script>
+    <!-- ChartJS -->
+    <script th:src="@{/plugins/chart.js/Chart.min.js}"></script>
+    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    <script th:src="@{/dist/js/pages/dashboard2.js}"></script>
