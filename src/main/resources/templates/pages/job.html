@@ -41,49 +41,33 @@
                     </div>
                 </div>
                 <table class="table table-bordered table-striped">
-			
                     <thead>
                         <tr>
-                            <th>Address</th>
-                            <th>Created_at</th>
-                            <th>Degree</th>
-                            <th>Description</th>
-                            <th>End date</th>
-                            <th>Exchange</th>
-                            <th>Experience</th>
-                            <th>Gender</th>
-                            <th>Position</th>
-                            <th>Salary from</th>
-                            <th>Salary to</th>
-                            <th>Salary type</th>
-                            <th>Start Date</th>
+                            <th>STT</th>
                             <th>Title</th>
-                            <th>Update</th>
-                            <th>Working from</th>
-
+                            <th>Start date</th>
+                            <th>End date</th>
+                            <th>Company name</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
+                        <!-- job: ${jobs} chạy vòng for -->
                         <tr th:each="job: ${jobs}">
-                            <td th:text="${job.address}"/>
-                            <td th:text="${job.created_at}" />
-                            <td th:text="${job.degree}" />
-                            <td th:text="${job.description}"/>
-                            <td th:text="${job.end_date}" />
-                            <td th:text="${job.exchange}" />
-                            <td th:text="${job.experience}"/>
-                            <td th:text="${job.gender}" />
-                            <td th:text="${job.position}" />
-                            <td th:text="${job.salary_from}"/>
-                            <td th:text="${job.salary_to}" />
-                            <td th:text="${job.salary_type}" />
-                            <td th:text="${job.start_date}" />
+                            <td th:text="${job.id}" />
                             <td th:text="${job.title}" />
-                            <td th:text="${job.updated_at}"/>
-                            <td th:text="${job.working_from}" />
+                            <td th:text="${job.start_date}" />
+                            <td th:text="${job.end_date}" />  
+                            <td th:text = "${job.companyname}"/>
+                            <!-- # là vị trí trống -->
+                        <td>
+                            <a class="btn btn-app"  th:href="@{#}">
+                                <i class="fas fa-edit"></i> Detail
+                              </a>
+                        </td>
+
                         </tr>
-                    </tbody>
-                    
+                    </tbody>  
                 </table>
             </section>
         </div>
@@ -113,3 +97,22 @@
     <script th:src="@{/plugins/chart.js/Chart.min.js}"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script th:src="@{/dist/js/pages/dashboard2.js}"></script>
+
+    <script>
+        $(function() {
+            loadUserData();
+
+           
+        });
+        let loadUserData = function() {
+            $.ajax({
+                url: "/job",
+                method: "GET",
+                dataType: "HTML",
+                success: function(data) {
+                    $('job').html(data)
+                    alert("Hi");
+                }
+            });
+        }
+    </script>
