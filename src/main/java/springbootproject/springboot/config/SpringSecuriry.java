@@ -33,6 +33,7 @@ public class SpringSecuriry {
                                 .requestMatchers("/build/**").permitAll()
                                 .requestMatchers("/dist/**").permitAll()
                                 .requestMatchers("/plugins/**").permitAll()
+                                .requestMatchers("/job/**").hasAuthority("ROLE_ADMIN")
                                 .requestMatchers("/dashboard").hasAuthority("ROLE_ADMIN")
                                 .requestMatchers("/customers/**").hasAuthority("ROLE_ADMIN")
                                 .requestMatchers("/users/**").hasAuthority("ROLE_ADMIN")

@@ -26,6 +26,7 @@ public class UserManagementController {
 
     @GetMapping("/users")
     public String index(Model model) {
+        //viết danh sách lấy user
         List<UserRequest> users = this.userService.getUsersDataList();
         model.addAttribute("users", users);
 
