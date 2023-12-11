@@ -11,7 +11,8 @@
 
     <!-- Preloader -->
     <div class="preloader flex-column justify-content-center align-items-center">
-        <img class="animation__wobble" th:src="@{/dist/img/AdminLTELogo.png}" alt="AdminLTELogo" height="60" width="60">
+        <img class="animation__wobble" th:src="@{/admin/dist/img/AdminLTELogo.png}" alt="AdminLTELogo" height="60"
+             width="60">
     </div>
 
     <!-- Navbar -->
@@ -22,26 +23,27 @@
     <span th:replace="~{layouts/sidebar :: sidebar}"></span>
 
     <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper" >
-    <div th:replace="${content}">
-        <!--    TODO -->
+    <div class="content-wrapper">
+        <div th:replace="${content}">
+            <!--    TODO -->
+        </div>
+        <!-- /.content-wrapper -->
+
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+        </aside>
+        <!-- /.control-sidebar -->
+
+        <!-- Main Footer -->
+        <span th:replace="~{layouts/footer :: footer}"></span>
     </div>
-    <!-- /.content-wrapper -->
+    <!-- ./wrapper -->
 
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-        <!-- Control sidebar content goes here -->
-    </aside>
-    <!-- /.control-sidebar -->
-
-    <!-- Main Footer -->
-    <span th:replace="~{layouts/footer :: footer}"></span>
+    <!-- REQUIRED SCRIPTS -->
+    <span th:replace="~{layouts/script :: script}"></span>
+    <span th:replace="~{pages/customers/script :: script}"></span>
 </div>
-<!-- ./wrapper -->
-
-<!-- REQUIRED SCRIPTS -->
-<span th:replace="~{layouts/script :: script}"></span>
-
 </body>
 
 </html>

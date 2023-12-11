@@ -13,12 +13,38 @@
     <script src="plugins/jquery-mousewheel/jquery.mousewheel.js"></script>
     <script src="plugins/raphael/raphael.min.js"></script>
     <script src="plugins/jquery-mapael/jquery.mapael.min.js"></script>
-    <script src="plugins/jquery-mapael/maps/usa_states.min.js"></script>
     <!-- ChartJS -->
-    <script src="plugins/chart.js/Chart.min.js"></script>
 
     <!-- AdminLTE for demo purposes -->
     <script src="dist/js/demo.js"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    <script src="plugins/datatables/jquery.dataTables.js"></script>
+    <script src="plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+
     <script src="dist/js/pages/dashboard2.js"></script>
+    <script src="plugins/chart.js/Chart.min.js"></script>
+    <script src="plugins/jquery-mapael/maps/usa_states.min.js"></script>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            const currentUrl = window.location.pathname;
+            const navLinks = document.getElementById('sidebar-menu').querySelectorAll('li a');
+            navLinks.forEach(link => {
+                const linkUrl = link.getAttribute('href');
+                if (linkUrl === currentUrl || currentUrl.startsWith(linkUrl)) {
+                    link.classList.add('active');
+                    highlightParentMenu(link);
+                }
+            });
+        });
+
+        function highlightParentMenu(link) {
+            const parentMenu = link.parentNode.parentNode;
+            if (parentMenu.tagName === 'UL' && !parentMenu.classList.contains('active')) {
+                parentMenu.parentNode.classList.add('menu-open');
+                parentMenu.parentNode.childNodes[1].classList.add('active')
+                highlightParentMenu(parentMenu.parentNode.querySelector('a'));
+            }
+        }
+    </script>
 </div>

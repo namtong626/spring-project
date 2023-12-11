@@ -33,16 +33,12 @@ public class SpringSecuriry {
                                 .requestMatchers("/build/**").permitAll()
                                 .requestMatchers("/dist/**").permitAll()
                                 .requestMatchers("/plugins/**").permitAll()
-                                .requestMatchers("/dashboard").hasAuthority("ROLE_ADMIN")
-                                .requestMatchers("/customers/**").hasAuthority("ROLE_ADMIN")
-                                .requestMatchers("/users/**").hasAuthority("ROLE_ADMIN")
-                                .requestMatchers("/users1/**").hasAuthority("ROLE_ADMIN")
-
+                                .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
                         .loginProcessingUrl("/login")
-                        .defaultSuccessUrl("/dashboard")
+                        .defaultSuccessUrl("/admin/dashboard", true)
                         .permitAll()
                 ).logout(
                         logout -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
