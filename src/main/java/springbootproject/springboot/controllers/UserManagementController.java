@@ -1,5 +1,6 @@
 package springbootproject.springboot.controllers;
 
+import java.time.Instant;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -28,7 +29,6 @@ public class UserManagementController {
     public String index(Model model) {
         List<UserRequest> users = this.userService.getUsersDataList();
         model.addAttribute("users", users);
-
         return "pages/users";
     }
 

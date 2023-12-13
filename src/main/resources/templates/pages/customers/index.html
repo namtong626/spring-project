@@ -1,82 +1,170 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      th:replace="app::layout(~{::section})">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{app.html}">
+
 <head>
     <title>Danh sach customer</title>
+    <style>
+        #customers_datatable_filter, #customers_datatable_paginate {
+            float: right !important;
+        }
+    </style>
 </head>
-<body>
-<section>
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1 class="m-0">Customer List</h1>
-                </div><!-- /.col -->
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Customer List</li>
-                    </ol>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
 
-    <!-- Main content -->
-    <section class="content">
-        <div th:if="${param.success}" class="alert alert-success">
-            Create user Successfully
+<body>
+    <section layout:fragment="content" style="margin-top: -2%;">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0">Customer List</h1>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item active">Customer List</li>
+                        </ol>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
         </div>
-        <div class="container-fluid">
-            <!-- /.row -->
-            <div class="row">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">
+        <!-- /.content-header -->
+
+        <!-- Main content -->
+        <section class="content">
+            <div th:if="${param.success}" class="alert alert-success">
+                Create user Successfully
+            </div>
+            <div class="container-fluid">
+                <!-- /.row -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
                                 <a class="btn btn-app" th:href="@{/admin/customers}">
                                     <i class="fas fa-plus"></i> Thêm mới
                                 </a>
-                            </h3>
-
-                            <div class="card-tools">
-                                <div class="input-group input-group-sm" style="width: 150px;">
-                                    <input type="text" name="table_search" class="form-control float-right"
-                                           placeholder="Search">
-
-                                    <div class="input-group-append">
-                                        <button type="submit" class="btn btn-default"><i class="fas fa-search"></i>
-                                        </button>
-                                    </div>
-                                </div>
                             </div>
-                        </div>
-                        <!-- /.card-header -->
-                        <div class="card-body">
-                            <table id="example2" class="table table-bordered table-hover">
-                                <thead>
-                                <tr>
-                                    <th>Rendering engine</th>
-                                    <th>Browser</th>
-                                    <th>Platform(s)</th>
-                                    <th>Engine version</th>
-                                    <th>CSS grade</th>
-                                </tr>
-                                </thead>
-                                <tbody>
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                                <table id="customers_datatable" class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>No.</th>
+                                            <th>Avatar</th>
+                                            <th>Fullname</th>
+                                            <th>DOB</th>
+                                            <th>Eamil</th>
+                                            <th>Phone</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
 
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.card-body -->
                         </div>
-                        <!-- /.card-body -->
+                        <!-- /.card -->
                     </div>
-                    <!-- /.card -->
                 </div>
+                <!-- /.row -->
             </div>
-            <!-- /.row -->
-        </div>
+        </section>
+        <!-- /.content -->
     </section>
-    <!-- /.content -->
-</section>
+
+    <div layout:fragment="custom_script">
+        <script>
+            $(document).ready(function () {
+                $('#customers_datatable').DataTable({
+                    headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+                    processing: true,
+                    serverSide: true,
+                    ajax: {
+                        url: "/admin/customers/data",
+                        dataType: "json",
+                        type: "POST",
+                        data: function (d) {
+                            d.start = d.start;
+                            d.length = d.length;
+                            d.search = d.search.value;
+                        },
+                        dataSrc: 'data'
+                    },
+                    columns: [
+                        { data: "id" },
+                        { data: "avatar" },
+                        { data: "fullname" },
+                        { data: "dob" },
+                        { data: "email" },
+                        { data: "phone" },
+                        { data: "action" },
+                    ],
+                    language: {
+                        aria: {
+                            sortAscending: "Active search function in ascending order",
+                            sortDescending: "Active search function in descending order"
+                        },
+                        emptyTable: "No data found",
+                        info: "Show _START_ to _END_ of _TOTAL_ records",
+                        infoEmpty: "Show 0 to 0 of 0 records",
+                        infoFiltered: "(Find from _MAX_ records)",
+                        lengthMenu: "Show _MENU_ Records",
+                        search: "Search:",
+                        zeroRecords: "Not records found",
+                        processing: "Đang tải..."
+                    },
+                    columnDefs: [
+                        {
+                            targets: 0, render: function (data, type, row, meta) {
+                                return meta.row + meta.settings._iDisplayStart + 1;
+                            }
+                        },
+                        {
+                            targets: 1, render: function (value, type, object, meta) {
+                                return object.avatar;
+                            }
+                        },
+                        {
+                            targets: 2, render: function (value, type, object, meta) {
+                                return object.fullname;
+                            }
+                        },
+                        {
+                            targets: 3, render: function (value, type, object, meta) {
+                                return object.dob;
+                            }
+                        },
+                        {
+                            targets: 4, render: function (value, type, object, meta) {
+                                return object.email;
+                            }
+                        },
+                        {
+                            targets: 5, render: function (value, type, object, meta) {
+                                return object.phone;
+                            }
+                        },
+                        {
+                            targets: 6, render: function (value, type, object, meta) {
+                                return '<a class="m-portlet__nav-link btn m-btn m-btn--hover-info m-btn--icon m-btn--icon-only m-btn--pill" ' +
+                                    'href="/admin/customers/' + object.id + '" >\n' +
+                                    '\t\t\t\t\t\t\t\t\t\t\t\t\t    <i class="fa fa-eye"></i> \n' +
+                                    '\t\t\t\t\t\t\t\t\t\t\t\t\t</a>';
+                            }
+                        }
+                    ],
+                });
+                // //Show index row
+                table.on('draw.dt', function () {
+                    var info = table.page.info();
+                    table.column(0, { search: 'applied', order: 'applied', page: 'applied' }).nodes().each(function (cell, i) {
+                        cell.innerHTML = i + 1 + info.start;
+                    });
+                });
+            });
+
+        </script>
+    </div>
 </body>

@@ -1,10 +1,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      th:replace="app::layout(~{::section})">
+    layout:decorate="~{app.html}">
 <head>
     <title>Dashboard</title>
 </head>
 <body>
-<section>
+<section layout:fragment="content">
     <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">

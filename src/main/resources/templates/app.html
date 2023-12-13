@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      th:fragment="layout(content)">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">AdminLTE</title>
     <span th:replace="~{layouts/head :: head}"></span>
@@ -24,7 +23,7 @@
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        <div th:replace="${content}">
+        <div layout:fragment="content">
             <!--    TODO -->
         </div>
         <!-- /.content-wrapper -->
@@ -36,13 +35,16 @@
         <!-- /.control-sidebar -->
 
         <!-- Main Footer -->
-        <span th:replace="~{layouts/footer :: footer}"></span>
     </div>
+
+    <span th:replace="~{layouts/footer :: footer}"></span>
+
     <!-- ./wrapper -->
 
     <!-- REQUIRED SCRIPTS -->
     <span th:replace="~{layouts/script :: script}"></span>
-    <span th:replace="~{pages/customers/script :: script}"></span>
+    <span layout:fragment="custom_script">
+    </span>
 </div>
 </body>
 
