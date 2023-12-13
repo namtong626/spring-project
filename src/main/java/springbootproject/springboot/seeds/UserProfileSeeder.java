@@ -1,6 +1,5 @@
 package springbootproject.springboot.seeds;
 
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,8 +51,7 @@ public class UserProfileSeeder {
             UserLanguageRepositoryInterface userLanguageRepositoryInterface,
             UserOutstandingAchievementRepositoryInterface userOutstandingAchievementRepositoryInterface,
             WelfareRepositoryInterface welfareRepositoryInterface,
-            CountryRepositoryInterface countryRepositoryInterface
-    ) {
+            CountryRepositoryInterface countryRepositoryInterface) {
         this.jdbcTemplate = jdbcTemplate;
         this.userRepo = userRepositoryInterface;
         this.roleRepo = roleRepositoryInterface;
@@ -202,7 +200,6 @@ public class UserProfileSeeder {
 
     }
 
-
     private void setUserLanguage(Profile profile) {
         UserLanguage userLanguage = new UserLanguage();
         userLanguage.setQualification(LanguageQualification.valueOf(LanguageQualification.ADVANCED.toString()));
@@ -241,12 +238,11 @@ public class UserProfileSeeder {
 
     }
 
-
     private List<Welfare> setWelfare() {
         List<Welfare> welfareList = new ArrayList<>();
 
         if (Common.isTableEmpty(welfareRepo)) {
-            String[] welfares = {"luong thang 13", "bao hiem", "thuong doanh so",};
+            String[] welfares = { "luong thang 13", "bao hiem", "thuong doanh so", };
 
             for (int i = 0; i < welfares.length; i++) {
                 Welfare welfare = new Welfare();
@@ -268,7 +264,7 @@ public class UserProfileSeeder {
             newRole.setName(springbootproject.springboot.enums.Role.ROLE_END_USER.toString());
             this.roleRepo.save(newRole);
 
-             return newRole;
+            return newRole;
         }
 
         return role;

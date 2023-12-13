@@ -54,6 +54,7 @@ public class CustomerController {
     @GetMapping("/admin/customers/{user_id}")
     public String view(Model model) {
         return "pages/customers/detail";
+        // load profile here
     }
 
     private UserDTO convertUsers(User user) {

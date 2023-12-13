@@ -16,41 +16,38 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableWebSecurity
 public class SpringSecuriry {
+        // 
+        @Autowired
+        private UserDetailsService userDetailsService;
 
-    @Autowired
-    private UserDetailsService userDetailsService;
+        @Bean
+        public static PasswordEncoder passwordEncoder() {
+                return new BCryptPasswordEncoder();
+        }
 
-    @Bean
-    public static PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+        @Bean
+        public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+                return http.csrf(csrf -> csrf.disable())
+                                .authorizeHttpRequests((auth) -> auth.requestMatchers("/register/**").permitAll()
+                                                .requestMatchers("/build/**").permitAll()
+                                                .requestMatchers("/dist/**").permitAll()
+                                                .requestMatchers("/plugins/**").permitAll()
+                                                .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN"))
+                                .formLogin(form -> form
+                                                .loginPage("/login")
+                                                .loginProcessingUrl("/login")
+                                                .defaultSuccessUrl("/admin/dashboard", true)
+                                                .permitAll())
+                                .logout(
+                                                logout -> logout.logoutRequestMatcher(
+                                                                new AntPathRequestMatcher("/logout"))
+                                                                .permitAll())
+                                .build();
+        }
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http.csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests((auth) ->
-                        auth.requestMatchers("/register/**").permitAll()
-                                .requestMatchers("/build/**").permitAll()
-                                .requestMatchers("/dist/**").permitAll()
-                                .requestMatchers("/plugins/**").permitAll()
-                                .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
-                )
-                .formLogin(form -> form
-                        .loginPage("/login")
-                        .loginProcessingUrl("/login")
-                        .defaultSuccessUrl("/admin/dashboard", true)
-                        .permitAll()
-                ).logout(
-                        logout -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                                .permitAll()
-                )
-                .build();
-    }
-
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService)
-                .passwordEncoder(passwordEncoder());
-    }
+        @Autowired
+        public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+                auth.userDetailsService(userDetailsService)
+                                .passwordEncoder(passwordEncoder());
+        }
 }
-

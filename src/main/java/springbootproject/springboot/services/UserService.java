@@ -20,28 +20,27 @@ public class UserService implements UserServiceInterface {
     protected PasswordEncoder passwordEncoder;
 
     public UserService(
-        UserRepositoryInterface userRepo,
-        RoleRepositoryInterface roleRepo,
-        PasswordEncoder passwordEncoder
-    ) {
+            UserRepositoryInterface userRepo,
+            RoleRepositoryInterface roleRepo,
+            PasswordEncoder passwordEncoder) {
         this.userRepo = userRepo;
         this.roleRepo = roleRepo;
         this.passwordEncoder = passwordEncoder;
     }
-    
+
     @Override
     public void saveUser(UserRequest userRequest) {
         User user = new User();
-        
+
         user.setFirstname(userRequest.getFirstname());
         user.setEmail(userRequest.getEmail());
 
         String pw = this.passwordEncoder.encode(userRequest.getPassword());
-        
+
         user.setPassword(pw);
 
         Role role = this.roleRepo.findByName("ROLE_ADMIN");
-        
+
         if (role == null) {
             role = saveRole();
         }
@@ -54,11 +53,11 @@ public class UserService implements UserServiceInterface {
     private Role saveRole() {
         Role role = new Role();
         role.setName("ROLE_ADMIN");
-        
+
         return this.roleRepo.save(role);
     }
 
-    @Override 
+    @Override
     public User findByEmail(String email) {
         return this.userRepo.findByEmail(email);
 
@@ -68,7 +67,7 @@ public class UserService implements UserServiceInterface {
     public List<UserRequest> getUsersDataList() {
         List<User> users = this.userRepo.findAll();
         return users.stream().map((user) -> convertUsers(user))
-            .collect(Collectors.toList());
+                .collect(Collectors.toList());
     }
 
     private UserRequest convertUsers(User user) {
@@ -76,7 +75,7 @@ public class UserService implements UserServiceInterface {
         users.setId(user.getId());
         users.setFirstname(user.getFirstname());
         users.setEmail(user.getEmail());
-        
+
         return users;
     }
 

@@ -1,7 +1,17 @@
 package springbootproject.springboot.contracts.repositories.profiles;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import springbootproject.springboot.models.UserHighlightSkill;
+import java.util.List;
 
-public interface UserHighlightSkillRepositoryInterface extends JpaRepository<UserHighlightSkill, Long>{
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import springbootproject.springboot.models.UserHighlightSkill;
+import springbootproject.springboot.response.highlightskilldto.HighLightSkillResponseDTO;
+
+public interface UserHighlightSkillRepositoryInterface extends JpaRepository<UserHighlightSkill, Long> {
+    @Query("select new springbootproject.springboot.response.highlightskilldto.HighLightSkillResponseDTO( us.id, us.description,us.level,us.skills_expertise) \n"
+            +
+            "From UserHighlightSkill us \n" +
+            "where us.profile.id =:profileId")
+    List<HighLightSkillResponseDTO> findAllByProfileId(Long profileId);
 }

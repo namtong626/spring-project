@@ -17,13 +17,12 @@ import springbootproject.springboot.requests.UserRequest;
 
 @Controller
 public class UserManagementController {
-    
+
     protected UserServiceInterface userService;
 
     public UserManagementController(UserServiceInterface userService) {
         this.userService = userService;
     }
-
 
     @GetMapping("/users")
     public String index(Model model) {
@@ -32,7 +31,6 @@ public class UserManagementController {
         return "pages/users";
     }
 
-    
     @GetMapping("/users/create")
     public String create(Model model) {
         UserRequest user = new UserRequest();
@@ -43,27 +41,25 @@ public class UserManagementController {
 
     @PostMapping("/users/save")
     public String save(
-        @Valid @ModelAttribute("user") UserRequest userRequest,
-        BindingResult result,
-        Model model
-    ) {
+            @Valid @ModelAttribute("user") UserRequest userRequest,
+            BindingResult result,
+            Model model) {
         User checkExistedEmail = this.userService.findByEmail(userRequest.getEmail());
 
         if (checkExistedEmail != null) {
-            result.rejectValue("email", "409",  "This Email is already registed");
+            result.rejectValue("email", "409", "This Email is already registed");
         }
 
         if (result.hasErrors()) {
             model.addAttribute("user", userRequest);
             return "pages/forms/users/create_users";
-		}
+        }
 
-		this.userService.saveUser(userRequest);
+        this.userService.saveUser(userRequest);
 
         return "redirect:/users?success";
     }
 
-    
     @GetMapping("/users/edit/{id}")
     public String edit(Model model) {
         return "pages/update_users";
@@ -71,22 +67,21 @@ public class UserManagementController {
 
     @PostMapping("/users/update")
     public String update(
-        @Valid @ModelAttribute("user") UserRequest userRequest,
-        BindingResult result,
-        Model model
-    ) {
+            @Valid @ModelAttribute("user") UserRequest userRequest,
+            BindingResult result,
+            Model model) {
         User checkExistedEmail = this.userService.findByEmail(userRequest.getEmail());
 
         if (checkExistedEmail != null) {
-            result.rejectValue("email", "409",  "This Email is already registed");
+            result.rejectValue("email", "409", "This Email is already registed");
         }
 
         if (result.hasErrors()) {
             model.addAttribute("user", userRequest);
             return "pages/update_users";
-		}
+        }
 
-		this.userService.saveUser(userRequest);
+        this.userService.saveUser(userRequest);
 
         return "redirect:/users?success";
     }
