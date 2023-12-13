@@ -2,10 +2,13 @@ package springbootproject.springboot.contracts.services.servicesinteface;
 
 import java.util.List;
 
-import springbootproject.springboot.response.profileresponse.ProfileDetailsResponseDTO;
+import springbootproject.springboot.requests.profiledto.ProfileRequestDTO;
+import springbootproject.springboot.response.profileresponse.UserProfileDetailResponseDTO;
 
 // import springbootproject.springboot.response.profileresponse.ProfileDetailsResponseDTO;
 
 public interface ProfileService {
-    Object getProfileDetails(Long profileId);
+    UserProfileDetailResponseDTO getProfileDetails(Long profileId);
+
+    Boolean createProfile(ProfileRequestDTO profileRequestDTO);
 }
