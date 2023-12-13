@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      th:fragment="layout(content)">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">AdminLTE</title>
     <span th:replace="~{layouts/head :: head}"></span>
@@ -11,7 +10,8 @@
 
     <!-- Preloader -->
     <div class="preloader flex-column justify-content-center align-items-center">
-        <img class="animation__wobble" th:src="@{/dist/img/AdminLTELogo.png}" alt="AdminLTELogo" height="60" width="60">
+        <img class="animation__wobble" th:src="@{/admin/dist/img/AdminLTELogo.png}" alt="AdminLTELogo" height="60"
+             width="60">
     </div>
 
     <!-- Navbar -->
@@ -22,26 +22,30 @@
     <span th:replace="~{layouts/sidebar :: sidebar}"></span>
 
     <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper" >
-    <div th:replace="${content}">
-        <!--    TODO -->
+    <div class="content-wrapper">
+        <div layout:fragment="content">
+            <!--    TODO -->
+        </div>
+        <!-- /.content-wrapper -->
+
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+        </aside>
+        <!-- /.control-sidebar -->
+
+        <!-- Main Footer -->
     </div>
-    <!-- /.content-wrapper -->
 
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-        <!-- Control sidebar content goes here -->
-    </aside>
-    <!-- /.control-sidebar -->
-
-    <!-- Main Footer -->
     <span th:replace="~{layouts/footer :: footer}"></span>
+
+    <!-- ./wrapper -->
+
+    <!-- REQUIRED SCRIPTS -->
+    <span th:replace="~{layouts/script :: script}"></span>
+    <span layout:fragment="custom_script">
+    </span>
 </div>
-<!-- ./wrapper -->
-
-<!-- REQUIRED SCRIPTS -->
-<span th:replace="~{layouts/script :: script}"></span>
-
 </body>
 
 </html>

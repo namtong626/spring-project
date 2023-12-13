@@ -9,8 +9,7 @@ import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Getter
 @Setter
@@ -52,4 +51,8 @@ public class City {
     @Generated(value = GenerationTime.ALWAYS)
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime updated_at;
+
+    // relationship with job 
+    @ManyToMany (mappedBy = "cities")
+    private List<Job> job;
 }
