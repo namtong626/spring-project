@@ -21,8 +21,8 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Entity
+@Builder
 @Table(name = "profiles")
 
 public class Profile {
